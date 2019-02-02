@@ -154,9 +154,9 @@ public class Robot extends TimedRobot {
 		
 		if(timer.get() < 3) swerveDriveSubsystem.holonomicDrive(0.4, 0 , 0);
 
-		for(int i = 0; i < 4; i++) {
-			System.out.println("Module " + i + ": " + swerveDriveSubsystem.getSwerveModule(i).getDriveMotor().getMotorOutputPercent());
-		}
+		// for(int i = 0; i < 4; i++) {
+		// 	System.out.println("Module " + i + ": " + swerveDriveSubsystem.getSwerveModule(i).getDriveMotor().getMotorOutputPercent());
+		// }
 		
 
 		/*System.out.println("Module 0 = " + swerveDriveSubsystem.getSwerveModule(0).getAngleMotor().getSelectedSensorPosition(RobotMap.kPIDLoopIdx));

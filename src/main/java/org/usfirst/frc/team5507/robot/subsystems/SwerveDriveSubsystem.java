@@ -4,6 +4,9 @@ import org.usfirst.frc.team5507.robot.input.XboxGamepad;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.SPI;
 
 public class SwerveDriveSubsystem extends HolonomicDrivetrain {
@@ -18,10 +21,10 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 	 * 3 is Back Right
 	 */
 	private SwerveDriveModule[] mSwerveModules = new SwerveDriveModule[] {                            //   1/23/19
-		new SwerveDriveModule(0, new TalonSRX(5), new TalonSRX(6), 238.609), //204.609 + 10   				209.609
-		new SwerveDriveModule(1, new TalonSRX(2), new TalonSRX(4), 234.023), // 219.023 + 5					234.023
-		new SwerveDriveModule(2, new TalonSRX(1), new TalonSRX(3), 20.6953125), //12.6953125 +25			37.69531
-		new SwerveDriveModule(3, new TalonSRX(7), new TalonSRX(8), 106.531) // 164.531 new: 94.531 + 10		99.531
+		new SwerveDriveModule(0, new TalonSRX(5), new CANSparkMax(6, MotorType.kBrushless), 238.609), //204.609 + 10   				209.609
+		new SwerveDriveModule(1, new TalonSRX(2), new CANSparkMax(4, MotorType.kBrushless), 234.023), // 219.023 + 5					234.023
+		new SwerveDriveModule(2, new TalonSRX(1), new CANSparkMax(3, MotorType.kBrushless), 20.6953125), //12.6953125 +25			37.69531
+		new SwerveDriveModule(3, new TalonSRX(7), new CANSparkMax(8, MotorType.kBrushless), 106.531) // 164.531 new: 94.531 + 10		99.531
 	};
 
 	private AHRS mNavX = new AHRS(SPI.Port.kMXP, (byte) 200);
@@ -39,7 +42,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 		mSwerveModules[1].getAngleMotor().setInverted(true);
 		mSwerveModules[3].getAngleMotor().setInverted(true);
 
-		mSwerveModules[0].zeroDistance();
+		mSwerveModules[0].resetEncoder();
 	}
 
 	public AHRS getNavX() {
@@ -122,4 +125,6 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 			module.setTargetSpeed(0);
 		}
 	}
+
+
 }

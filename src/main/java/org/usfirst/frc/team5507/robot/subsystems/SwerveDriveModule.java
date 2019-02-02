@@ -4,6 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,16 +25,22 @@ public class SwerveDriveModule extends Subsystem {
 
 	private final double mZeroOffset;
 
+    private final CANEncoder mDriveEncoder;
 	private final TalonSRX mAngleMotor;
-	private final TalonSRX mDriveMotor;
+    private final CANSparkMax mDriveMotor;
+    
+    private double zeroPos;
 
-	public SwerveDriveModule(int moduleNumber, TalonSRX angleMotor, TalonSRX driveMotor, double zeroOffset) {
+	public SwerveDriveModule(int moduleNumber, TalonSRX angleMotor, CANSparkMax driveMotor, double zeroOffset) {
 		mModuleNumber = moduleNumber;
 
 		mAngleMotor = angleMotor;
-		mDriveMotor = driveMotor;
+        mDriveMotor = driveMotor;
+        mDriveEncoder = mDriveMotor.getEncoder();
 
-		mZeroOffset = zeroOffset;
+        mZeroOffset = zeroOffset;
+        zeroPos = mDriveEncoder.getPosition();
+
            angleMotor.configSelectedFeedbackSensor(FeedbackDevice.Analog, 0, 0);
             angleMotor.setSensorPhase(true);
 	        angleMotor.config_kP(0, 20, 0);
@@ -39,32 +49,23 @@ public class SwerveDriveModule extends Subsystem {
 	        angleMotor.setNeutralMode(NeutralMode.Brake);
             angleMotor.set(ControlMode.Position, 0);
             angleMotor.configNeutralDeadband(0.07);
+           // driveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); ADD TO CANSPARKMAX LATER***
+           
 
-            driveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+            driveMotor.setIdleMode(IdleMode.kBrake);
 
-	        // driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
-	        // driveMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
-
-	        // driveMotor.config_kP(0, 15, 0);
-	        // driveMotor.config_kI(0, 0.01, 0);
-	        // driveMotor.config_kD(0, 0.1, 0);
-	        // driveMotor.config_kF(0, 0.2, 0);
-
-	        // driveMotor.configMotionCruiseVelocity(640, 0);
-	        // driveMotor.configMotionAcceleration(200, 0);
-
-	        driveMotor.setNeutralMode(NeutralMode.Brake);
 
 	        // Set amperage limits
 	        angleMotor.configContinuousCurrentLimit(30, 0);
 	        angleMotor.configPeakCurrentLimit(30, 0);
 	        angleMotor.configPeakCurrentDuration(100, 0);
 	        angleMotor.enableCurrentLimit(true);
-
-	        driveMotor.configContinuousCurrentLimit(25, 0);
-	        driveMotor.configPeakCurrentLimit(25, 0);
-	        driveMotor.configPeakCurrentDuration(100, 0);
-	        driveMotor.enableCurrentLimit(true);
+            
+            driveMotor.setSmartCurrentLimit(15);
+            driveMotor.setSecondaryCurrentLimit(15,0);
+            driveMotor.setCANTimeout(0);
+            //driveMotor.enableCurrentLimit(true); try using pheonix tuner
+	     
 	}
 	
     @Override
@@ -91,7 +92,7 @@ public class SwerveDriveModule extends Subsystem {
     }
 
   
-    public TalonSRX getDriveMotor() {
+    public CANSparkMax getDriveMotor() {
         return mDriveMotor;
     }
 
@@ -161,18 +162,22 @@ public class SwerveDriveModule extends Subsystem {
 
 
     public void setTargetSpeed(double speed) {
-//    	if(angleMotorJam) {
-//    		mDriveMotor.set(ControlMode.Disabled, 0);
-//    		return;
-//    	}
-//        if (driveInverted) speed = -speed;
-
-        mDriveMotor.set(ControlMode.PercentOutput, speed);
+        mDriveMotor.set(speed);
     }
 
-    public void zeroDistance() {
-        mDriveMotor.setSelectedSensorPosition(0, 0, 0);
+    // public void zeroDistance() {
+    //     //mDriveMotor.setSelectedSensorPosition(0, 0, 0);
+    //     mDriveEncoder.set
+    // }
+
+    public void resetEncoder() {
+        zeroPos = mDriveEncoder.getPosition(); 
     }
+
+    public double getEncoderDiff() {
+        return mDriveEncoder.getPosition() - zeroPos;
+    }
+
     public double getTargetAngle() {
     	return mLastTargetAngle;
     }
@@ -186,11 +191,11 @@ public class SwerveDriveModule extends Subsystem {
     }
 
     public double getInches() {
-        return encoderTicksToInches(mDriveMotor.getSelectedSensorPosition(0));
+        return encoderTicksToInches(mDriveEncoder.getPosition());
     }
 
     public double getDriveDistance() { 
-        int ticks = mDriveMotor.getSelectedSensorPosition(0);
+        double ticks = mDriveEncoder.getPosition();
 
         return encoderTicksToInches(ticks);
     }
