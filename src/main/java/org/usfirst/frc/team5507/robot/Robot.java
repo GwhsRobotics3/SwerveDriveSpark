@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -35,11 +37,21 @@ public class Robot extends TimedRobot {
 	public static Limelight m_Limelight;
 	public Compressor compressor;
 	public AHRS m_ahrs;
+	public static Command m_autoCommand;
+	SendableChooser<Integer> m_chooser = new SendableChooser<>();
 	
 	private static OI mOI;
 	public static OI getOI() {
 		return mOI;
 	}
+
+	//Auto system
+	private static final int START_DEFAULT = 0;
+	private static final int START_RIGHT_2 = 1;
+	private static final int START_LEFT_2 = 2;
+	private static final int START_RIGHT_1 = 3;
+	private static final int START_CENTER_1 = 4;
+	private static final int START_LEFT_1 = 5;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -59,6 +71,13 @@ public class Robot extends TimedRobot {
 		mOI = new OI(this);
 		mOI.registerControls();
 		swerveDriveSubsystem.zeroGyro();
+
+		m_chooser.addDefault("Get off hab zone", START_DEFAULT);
+		m_chooser.addObject("Starting level 2 right", START_RIGHT_2);
+		m_chooser.addObject("Starting level 2 left", START_LEFT_2);
+		m_chooser.addObject("Starting level 1 right", START_RIGHT_1);
+		m_chooser.addObject("Starting level 1 center", START_CENTER_1);
+		m_chooser.addObject("Starting level 1 left", START_LEFT_1);
 	}
 
 	@Override

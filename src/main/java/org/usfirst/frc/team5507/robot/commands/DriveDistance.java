@@ -12,6 +12,9 @@ import org.usfirst.frc.team5507.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveDistance extends Command {
+
+  public static final double WHEEL_CIRCUMFERENCE = 4 * Math.PI;
+
   public DriveDistance() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
