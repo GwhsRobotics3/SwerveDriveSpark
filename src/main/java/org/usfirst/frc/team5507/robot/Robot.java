@@ -118,7 +118,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		compressor.setClosedLoopControl(true);
+		//compressor.setClosedLoopControl(true);
 
 	}
 
@@ -142,25 +142,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		/*if(timer.get() < 3) swerveDriveSubsystem.holonomicDrive(.05, 0 , 0); //2.33 ft/s at 0.5 speed
-		else if(timer.get() < 6) swerveDriveSubsystem.holonomicDrive(0.10, 0, 0);
-		else if(timer.get() < 9) swerveDriveSubsystem.holonomicDrive(0.15, 0, 0);
-		else if(timer.get() < 12) swerveDriveSubsystem.holonomicDrive(.2, 0, 0);
-		else if(timer.get() < 15) swerveDriveSubsystem.holonomicDrive(0.3, 0, 0);
-		else {
-			swerveDriveSubsystem.stopDriveMotors();
-			timer.stop();
-		} */
-		
-		if(timer.get() < 3) swerveDriveSubsystem.holonomicDrive(0.4, 0 , 0);
-
-		// for(int i = 0; i < 4; i++) {
-		// 	System.out.println("Module " + i + ": " + swerveDriveSubsystem.getSwerveModule(i).getDriveMotor().getMotorOutputPercent());
-		// }
-		
-
-		/*System.out.println("Module 0 = " + swerveDriveSubsystem.getSwerveModule(0).getAngleMotor().getSelectedSensorPosition(RobotMap.kPIDLoopIdx));
-		System.out.println("Module 3 = " + swerveDriveSubsystem.getSwerveModule(3).getAngleMotor().getSelectedSensorPosition(RobotMap.kPIDLoopIdx));*/
+		swerveDriveSubsystem.holonomicDrive(0.2, 0, 0);
 	}
 
 	public SwerveDriveSubsystem getDrivetrain() {

@@ -16,15 +16,15 @@ public class HolonomicDriveCommand extends Command {
 	}
 
 	private double deadband(double input) {
-		if (Math.abs(input) < 0.25) return 0;
+		if (Math.abs(input) < 0.15) return 0;
 		return input;
 	}
 
 	@Override
 	protected void execute() {
-		double forward = -Robot.getOI().getController().getLeftYValue();
+		double forward = Robot.getOI().getController().getLeftYValue();
 		double rotation = Robot.getOI().getController().getRightXValue() * 0.5;
-		double strafe =  -Robot.getOI().getController().getLeftXValue(); 
+		double strafe =  Robot.getOI().getController().getLeftXValue(); 
 
 		if (Robot.getOI().getController().getLeftBumperButton().get()) {
 			rotation = -1;

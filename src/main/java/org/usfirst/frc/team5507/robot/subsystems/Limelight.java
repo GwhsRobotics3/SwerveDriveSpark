@@ -102,7 +102,7 @@ public class Limelight extends Subsystem {
       // System.out.println(a);
     }
     if(Math.abs(angleErr) > .5) {
-      rotation = (.003 * angleErr) + (dx * kD);
+      rotation = (.005 * angleErr) + (dx * kD);
       System.out.println(angleErr);
     }
     if(limelightarea > 25) {

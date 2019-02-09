@@ -10,8 +10,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.SPI;
 
 public class SwerveDriveSubsystem extends HolonomicDrivetrain {
-	private static final double WHEELBASE = 28.29;
-	private static final double TRACKWIDTH = 23.13;
+	private static final double WHEELBASE = 21.5;
+	private static final double TRACKWIDTH = 23;
 	private static final double RATIO = Math.sqrt(Math.pow(WHEELBASE, 2) + Math.pow(TRACKWIDTH, 2));
 
 	/*
@@ -20,11 +20,11 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 	 * 2 is Back Left
 	 * 3 is Back Right
 	 */
-	private SwerveDriveModule[] mSwerveModules = new SwerveDriveModule[] {                            //   1/23/19
-		new SwerveDriveModule(0, new TalonSRX(5), new CANSparkMax(6, MotorType.kBrushless), 238.609), //204.609 + 10   				209.609
-		new SwerveDriveModule(1, new TalonSRX(2), new CANSparkMax(4, MotorType.kBrushless), 234.023), // 219.023 + 5					234.023
-		new SwerveDriveModule(2, new TalonSRX(1), new CANSparkMax(3, MotorType.kBrushless), 20.6953125), //12.6953125 +25			37.69531
-		new SwerveDriveModule(3, new TalonSRX(7), new CANSparkMax(8, MotorType.kBrushless), 106.531) // 164.531 new: 94.531 + 10		99.531
+	private SwerveDriveModule[] mSwerveModules = new SwerveDriveModule[] {                            
+		new SwerveDriveModule(0, new TalonSRX(12), new CANSparkMax(4, MotorType.kBrushless), 390), 
+		new SwerveDriveModule(1, new TalonSRX(13), new CANSparkMax(5, MotorType.kBrushless), 293), 
+		new SwerveDriveModule(2, new TalonSRX(10), new CANSparkMax(3, MotorType.kBrushless), 298),
+		new SwerveDriveModule(3, new TalonSRX(11), new CANSparkMax(2, MotorType.kBrushless), 328)
 	};
 
 	private AHRS mNavX = new AHRS(SPI.Port.kMXP, (byte) 200);
@@ -33,11 +33,11 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 		zeroGyro(); 
 
 		mSwerveModules[0].getDriveMotor().setInverted(false); // Doesnt Work!!
-		mSwerveModules[1].getDriveMotor().setInverted(false);
+		mSwerveModules[1].getDriveMotor().setInverted(true);
 		mSwerveModules[2].getDriveMotor().setInverted(false);
 		mSwerveModules[3].getDriveMotor().setInverted(false);
 
-		mSwerveModules[0].getAngleMotor().setInverted(true); // no clue if it works.
+		mSwerveModules[0].getAngleMotor().setInverted(true); 
 		mSwerveModules[2].getAngleMotor().setInverted(true);
 		mSwerveModules[1].getAngleMotor().setInverted(true);
 		mSwerveModules[3].getAngleMotor().setInverted(true);
