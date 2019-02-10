@@ -65,6 +65,15 @@ public class Climber extends Subsystem {
     arm2.set(.3);
   }
 
+  public void pullDownArm1()
+  {
+    arm1.set(.3);
+  }
+  public void pullDownArm2()
+  {
+    arm2.set(.3);
+  }
+
   public void pullUpArm2() { //when held
     arm2.set(-0.3);
   }
