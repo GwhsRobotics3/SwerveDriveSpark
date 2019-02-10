@@ -11,34 +11,45 @@ import org.usfirst.frc.team5507.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ClimberPullUpArm1 extends Command {
-  public ClimberPullUpArm1() {
+public class DriveSidewaysDistance extends Command {
+  private double d1; 
+  private double startAngle;
+  public static final double WHEEL_CIRCUMFERENCE = 4 * Math.PI;
+  public static final double TOTAL_SENSOR_POS = 1024;
+  public static final double DISTANCE = WHEEL_CIRCUMFERENCE / TOTAL_SENSOR_POS;
+
+  public DriveSidewaysDistance(double d) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.m_climber);
+    requires(Robot.swerveDriveSubsystem);
+    d1 = DISTANCE * d * 12;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    startAngle = Robot.swerveDriveSubsystem.getNavX().getYaw();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_climber.pullUpArm1();
+    Robot.swerveDriveSubsystem.driveForwardDistance(d1, startAngle);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    double errPos = d1 - Robot.swerveDriveSubsystem.getSwerveModule(0).getDriveDistance();
+    if(Math.abs(errPos) < DISTANCE) {
+      return true;
+    }
     return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_climber.stop();
   }
 
   // Called when another command which requires one or more of the same

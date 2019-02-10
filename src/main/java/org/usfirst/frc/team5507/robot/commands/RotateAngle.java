@@ -11,38 +11,45 @@ import org.usfirst.frc.team5507.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ClimberPullUpArm1 extends Command {
-  public ClimberPullUpArm1() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.m_climber);
+public class RotateAngle extends Command {
+  private double angle; 
+  
+
+  public RotateAngle(double a) {
+    requires(Robot.swerveDriveSubsystem);
+    angle = a;
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+  Robot.swerveDriveSubsystem.getNavX().zeroYaw();
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_climber.pullUpArm1();
+   double angleErr = angle - Robot.swerveDriveSubsystem.getNavX().getYaw();
+   if(angleErr > 0) {
+     Robot.swerveDriveSubsystem.holonomicDrive(0, 0, 0.4);
+   }
+   else if(angleErr < 0) {
+     Robot.swerveDriveSubsystem.holonomicDrive(0, 0, -0.4);
+   }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
+    double angleErr = angle - Robot.swerveDriveSubsystem.getNavX().getYaw();
+    if(Math.abs(angleErr) < 2) {
+    return true;
+    }
+
     return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_climber.stop();
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
   }

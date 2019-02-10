@@ -11,8 +11,8 @@ import org.usfirst.frc.team5507.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ClimberPullUpArm1 extends Command {
-  public ClimberPullUpArm1() {
+public class StopArm2 extends Command {
+  public StopArm2() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.m_climber);
@@ -26,7 +26,7 @@ public class ClimberPullUpArm1 extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_climber.pullUpArm1();
+    Robot.m_climber.stopArm2();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -38,7 +38,6 @@ public class ClimberPullUpArm1 extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_climber.stop();
   }
 
   // Called when another command which requires one or more of the same

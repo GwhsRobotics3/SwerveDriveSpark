@@ -82,12 +82,16 @@ public class Limelight extends Subsystem {
     limelighty = ty.getDouble(0.3);
     limelightarea = ta.getDouble(0.3);
     isView = tv.getBoolean(true);
+    
     angleErr = 0 - (Robot.swerveDriveSubsystem.getGyroAngle() % 180);
     double rotation = 0;
     double strafe = 0;
     prevX.add(angleErr);
     double dx = 0;
-    if(prevX.size() > 2) dx = (prevX.get(prevX.size()-1) - prevX.get(prevX.size()-2))/.02;
+
+    if(prevX.size() > 2) 
+    dx = (prevX.get(prevX.size()-1) - prevX.get(prevX.size()-2))/.02;
+
     System.out.println("DX : " + dx);
     
 
@@ -95,22 +99,23 @@ public class Limelight extends Subsystem {
     xIErr += (xErr)*.02;
     
 
-    if (Math.abs(limelightx) > .5) {
-      //strafe = 0.12 * limelightx;
+    if (Math.abs(limelightx) > .5)
       strafe = kP*xErr + kI*xIErr;
-      // double a = limelightx;
-      // System.out.println(a);
-    }
+    
     if(Math.abs(angleErr) > .5) {
       rotation = (.005 * angleErr) + (dx * kD);
       System.out.println(angleErr);
     }
+
     if(limelightarea > 25) {
       rotation = 0;
       strafe = 0;
     }
-    if(isView) Robot.swerveDriveSubsystem.holonomicDrive(.225, -strafe, rotation); //forward: .3 * (1/limelightarea)
-    else Robot.swerveDriveSubsystem.holonomicDrive(.225, -strafe, 0);
+
+    if(isView) 
+      Robot.swerveDriveSubsystem.holonomicDrive(.225, -strafe, rotation); //forward: .3 * (1/limelightarea)
+    else 
+      Robot.swerveDriveSubsystem.holonomicDrive(.225, -strafe, 0);
     
   }
 }

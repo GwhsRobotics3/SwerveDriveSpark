@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
 		compressor = new Compressor();
 		swerveDriveSubsystem = new SwerveDriveSubsystem();
 		m_Limelight = new Limelight();
-		//m_climber = new Climber();
+		m_climber = new Climber();
 		m_HatchDelivery = new HatchDelivery();
 		timer = new Timer();	
 		//Climber.setPID(Robot.m_climber.getPIDControllerArm1(), .2 , 1e-4, 1);

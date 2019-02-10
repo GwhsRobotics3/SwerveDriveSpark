@@ -26,8 +26,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Climber extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  private static CANSparkMax arm1 = new CANSparkMax(1, MotorType.kBrushless);
-  private static CANSparkMax arm2 = new CANSparkMax(2, MotorType.kBrushless);
+  private static CANSparkMax arm1 = new CANSparkMax(0, MotorType.kBrushless);
+  private static CANSparkMax arm2 = new CANSparkMax(1, MotorType.kBrushless);
   private static CANEncoder NEncoder1 = new CANEncoder(arm1);
   private static CANEncoder NEncoder2 = new CANEncoder(arm2);
   private static CANPIDController NPidController1 = new CANPIDController(arm1);
@@ -113,6 +113,14 @@ public class Climber extends Subsystem {
 
   public void armToDegree(double angle) {
     NPidController1.setReference((angle/360) * GEARBOX_RATIO, ControlType.kPosition);
+  }
+
+  public void stopArm1() {
+    arm1.stopMotor();
+  }
+
+  public void stopArm2() {
+    arm2.stopMotor();
   }
 }
 

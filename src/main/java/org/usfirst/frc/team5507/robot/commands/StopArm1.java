@@ -11,14 +11,11 @@ import org.usfirst.frc.team5507.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveDistance extends Command {
-
-  public static final double WHEEL_CIRCUMFERENCE = 4 * Math.PI;
-
-  public DriveDistance() {
+public class StopArm1 extends Command {
+  public StopArm1() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.swerveDriveSubsystem);
+    requires(Robot.m_climber);
   }
 
   // Called just before this Command runs the first time
@@ -29,6 +26,7 @@ public class DriveDistance extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.m_climber.stopArm1();
   }
 
   // Make this return true when this Command no longer needs to run execute()

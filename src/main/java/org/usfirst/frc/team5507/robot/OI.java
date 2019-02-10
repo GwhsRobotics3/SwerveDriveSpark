@@ -10,6 +10,8 @@ import org.usfirst.frc.team5507.robot.commands.ClimberPullUpArm2;
 import org.usfirst.frc.team5507.robot.commands.PlaceHatch;
 import org.usfirst.frc.team5507.robot.commands.ResetDrivetrainEncoderCommand;
 import org.usfirst.frc.team5507.robot.commands.RetractHatch;
+import org.usfirst.frc.team5507.robot.commands.StopArm1;
+import org.usfirst.frc.team5507.robot.commands.StopArm2;
 import org.usfirst.frc.team5507.robot.commands.SwitchLedModes;
 import org.usfirst.frc.team5507.robot.commands.ToggleFieldOrientedCommand;
 import org.usfirst.frc.team5507.robot.commands.ZeroNavX;
@@ -41,13 +43,20 @@ public class OI {
 		// mController.getYButton().whenPressed(new ZeroNavX());
 		//mController.getLeftBumperButton().whenPressed(new SwitchLedModes());
 		mController.getAButton().whenPressed(new ClimberPullUpArm1());
+		mController.getAButton().whenReleased(new StopArm1());
+
 		mController.getXButton().whenPressed(new ClimberPullUpArm2());
+		mController.getXButton().whenReleased(new StopArm2());
+
 		mController.getBButton().whenPressed(new ClimberPullDownArm1());
+		mController.getBButton().whenReleased(new StopArm1());
+
 		mController.getYButton().whenPressed(new ClimberPullDownArm2());
+		mController.getYButton().whenReleased(new StopArm2());
+		
 		mController.getStartButton().whenPressed(new ZeroNavX());
-
-
-
+		 //A and B arm 1
+		 //X and Y arm 2
 
 		//mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(mRobot.getDrivetrain()));
 		//mController.getDPadButton(DPadButton.Direction.LEFT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), false));

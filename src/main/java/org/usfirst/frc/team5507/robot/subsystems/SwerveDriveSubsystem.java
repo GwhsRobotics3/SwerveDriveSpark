@@ -126,5 +126,32 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 		}
 	}
 
+	public void driveForwardDistance(double targetPos, double angle){
+		double angleError = ((angle - mNavX.getYaw()) / 180)*10;
+		angleError = Math.min(angleError, 1);
+		angleError = Math.max(angleError, -1);
+		double speed = 0;
+		if((targetPos > 0) && (mSwerveModules[0].getDriveDistance() < (targetPos/12))) {
+			speed = 0.4;
+		}
+		if((targetPos < 0) && (mSwerveModules[0].getDriveDistance() > (targetPos/12))) {
+			speed = -0.4;
+		}
+		holonomicDrive(speed, 0, angleError);
+	}
+
+	public void driveSidewaysDistance(double targetPos, double angle) {
+		double angleError = ((angle - mNavX.getYaw()) / 180)*10;
+		angleError = Math.min(angleError, 1);
+		angleError = Math.max(angleError, -1);
+		double speed = 0;
+		if((targetPos > 0) && (mSwerveModules[0].getDriveDistance() < (targetPos/12))) {
+			speed = 0.4;
+		}
+		if((targetPos < 0) && (mSwerveModules[0].getDriveDistance() > (targetPos/12))) {
+			speed = -0.4;
+		}
+		holonomicDrive(0, speed, angleError);
+	}
 
 }

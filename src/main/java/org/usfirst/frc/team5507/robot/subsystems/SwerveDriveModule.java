@@ -196,7 +196,6 @@ public class SwerveDriveModule extends Subsystem {
 
     public double getDriveDistance() { 
         double ticks = mDriveEncoder.getPosition();
-
         return encoderTicksToInches(ticks);
     }
 }
