@@ -3,6 +3,7 @@ package org.usfirst.frc.team5507.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import org.usfirst.frc.team5507.robot.commands.AutoAlign;
 import org.usfirst.frc.team5507.robot.subsystems.Climber;
 import org.usfirst.frc.team5507.robot.subsystems.HatchDelivery;
 import org.usfirst.frc.team5507.robot.subsystems.Limelight;
@@ -39,9 +40,10 @@ public class Robot extends TimedRobot {
 	public AHRS m_ahrs;
 	public static Command m_autoCommand;
 	SendableChooser<Integer> m_chooser = new SendableChooser<>();
-	SendableChooser<Integer> m_anglechooser = new SendableChooser<>();
-
+	SendableChooser<Integer> m_alignChooser = new SendableChooser<Integer>();
+	public static AutoAlign m_align;
 	private static OI mOI;
+	public static double targetPos;
 	public static OI getOI() {
 		return mOI;
 	}
@@ -56,11 +58,11 @@ public class Robot extends TimedRobot {
 
 	//Angle Chooser System
 	private static final int FRONT_CARGO = 0;
-	private static final int RIGHT_CARGO = 1;
-	private static final int LEFT_CARGO = 2;
-	private static final int RIGHT_ROCKET = 3;
-	private static final int LEFT_ROCKET = 4;
-	private static final int LOADING_STATION = 5;
+	private static final int LEFT_CARGO = -90;
+	private static final int LEFT_ROCKET = -61; // CHANGE
+	private static final int RIGHT_CARGO = 90;
+	private static final int RIGHT_ROCKET = 61;
+	private static final int LOADING_STATION = 180;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -79,6 +81,14 @@ public class Robot extends TimedRobot {
 		mOI.registerControls();
 		swerveDriveSubsystem.zeroGyro();
 
+		m_alignChooser.setDefaultOption("Front Cargo Bay (Zero) ", FRONT_CARGO);
+		m_alignChooser.addOption("Left Cargo Bay ", LEFT_CARGO );
+		m_alignChooser.addOption("Left Rocket ", LEFT_ROCKET);
+		m_alignChooser.addOption("Right Cargo Bay ", RIGHT_CARGO);
+		m_alignChooser.addOption("Right Rocket ", RIGHT_ROCKET);
+		m_alignChooser.addOption("Loading Station ", LOADING_STATION);
+
+
 		m_chooser.setDefaultOption("Get off hab zone", START_DEFAULT);
 		m_chooser.addOption("Starting level 2 right", START_RIGHT_2);
 		m_chooser.addOption("Starting level 2 left", START_LEFT_2);
@@ -86,17 +96,14 @@ public class Robot extends TimedRobot {
 		m_chooser.addOption("Starting level 1 center", START_CENTER_1);
 		m_chooser.addOption("Starting level 1 left", START_LEFT_1);
 
-		m_anglechooser.setDefaultOption("Front Cargo", FRONT_CARGO);
-		m_anglechooser.addOption("Loading Station", LOADING_STATION);
-		m_anglechooser.addOption("Right Cargo", RIGHT_CARGO);
-		m_anglechooser.addOption("Left Cargo", LEFT_CARGO);
-		m_anglechooser.addOption("Right Rocket", RIGHT_ROCKET);
-		m_anglechooser.addOption("Left Rocket", LEFT_ROCKET);
-		
+		SmartDashboard.putData("Align Chooser", m_alignChooser);
 	}
 
 	@Override
 	public void robotPeriodic() {
+
+		if(!(getOI().getController().getXButton().get())) swerveDriveSubsystem.setIsAuto(false);
+
 		SmartDashboard.putNumber("Adjusted Drivetrain Angle", swerveDriveSubsystem.getGyroAngle());
 		SmartDashboard.putNumber("Raw Drivetrain Angle", swerveDriveSubsystem.getRawGyroAngle());
 		SmartDashboard.putNumber("Drivetrain Rate", swerveDriveSubsystem.getGyroRate());
@@ -107,8 +114,31 @@ public class Robot extends TimedRobot {
 			//System.out.println("Module " + i  + ": " + swerveDriveSubsystem.getSwerveModule(i).getCurrentAngle());
 		}
 	//System.out.println("Module 2: " + swerveDriveSubsystem.getSwerveModule(2).getAngleMotor().getOutputCurrent());
-	SmartDashboard.putData("AutoChooser", m_chooser);
-	SmartDashboard.putData("AngleChooser", m_anglechooser);
+	m_align = new AutoAlign(FRONT_CARGO);
+		targetPos = FRONT_CARGO;
+		switch(m_alignChooser.getSelected())
+		{
+			case LEFT_CARGO: 
+				m_align = new AutoAlign(LEFT_CARGO);
+				targetPos = LEFT_CARGO;
+				break;
+			case LEFT_ROCKET: 
+				m_align = new AutoAlign(LEFT_ROCKET);
+				targetPos = LEFT_ROCKET;
+				break;	
+			case RIGHT_CARGO: 
+				m_align = new AutoAlign(RIGHT_CARGO);
+				targetPos = RIGHT_CARGO;
+				break;	
+			case RIGHT_ROCKET: 
+				m_align = new AutoAlign(RIGHT_ROCKET);
+				targetPos = RIGHT_ROCKET;
+				break;	
+			case LOADING_STATION: 
+				m_align = new AutoAlign(LOADING_STATION);
+				targetPos = LOADING_STATION;
+				break;				
+		}
 		
 	}
 
