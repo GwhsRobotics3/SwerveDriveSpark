@@ -7,9 +7,8 @@ import org.usfirst.frc.team5507.robot.commands.ClimberPullDownArm1;
 import org.usfirst.frc.team5507.robot.commands.ClimberPullDownArm2;
 import org.usfirst.frc.team5507.robot.commands.ClimberPullUpArm1;
 import org.usfirst.frc.team5507.robot.commands.ClimberPullUpArm2;
-import org.usfirst.frc.team5507.robot.commands.PlaceHatch;
+import org.usfirst.frc.team5507.robot.commands.HatchToggle;
 import org.usfirst.frc.team5507.robot.commands.ResetDrivetrainEncoderCommand;
-import org.usfirst.frc.team5507.robot.commands.RetractHatch;
 import org.usfirst.frc.team5507.robot.commands.StopArm1;
 import org.usfirst.frc.team5507.robot.commands.StopArm2;
 import org.usfirst.frc.team5507.robot.commands.SwitchLedModes;
@@ -37,8 +36,7 @@ public class OI {
 
 	public void registerControls() { 
 		//mController.getAButton().whenPressed(new ResetDrivetrainEncoderCommand(mRobot.getDrivetrain()));
-		// mController.getBButton().whenPressed(new PlaceHatch());
-		// mController.getAButton().whenPressed(new RetractHatch());
+		// mController.getBButton().whenPressed(new HatchToggle());
 		// mController.getXButton().whileHeld(new AutoAlign());
 		// mController.getYButton().whenPressed(new ZeroNavX());
 		//mController.getLeftBumperButton().whenPressed(new SwitchLedModes());

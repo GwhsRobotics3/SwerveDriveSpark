@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team5507.robot.subsystems;
 
-import org.usfirst.frc.team5507.robot.commands.RetractHatch;
+import org.usfirst.frc.team5507.robot.commands.HatchToggle;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -20,12 +20,13 @@ public class HatchDelivery extends Subsystem {
   // here. Call these from Commands.
   DoubleSolenoid solenoid1 = new DoubleSolenoid(0, 1);
   DoubleSolenoid solenoid2 = new DoubleSolenoid(2, 3);
+  private boolean isRetracted = true;
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new RetractHatch());
+    setDefaultCommand(new HatchToggle());
   }
 
   public void retractHatch() {
@@ -36,5 +37,9 @@ public class HatchDelivery extends Subsystem {
   public void placeHatch() {
     solenoid1.set(DoubleSolenoid.Value.kReverse);
     solenoid2.set(DoubleSolenoid.Value.kReverse);
+  }
+  public boolean getRetracted()
+  {
+    return isRetracted;
   }
 }

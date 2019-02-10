@@ -66,8 +66,6 @@ public class Robot extends TimedRobot {
 		m_climber = new Climber();
 		m_HatchDelivery = new HatchDelivery();
 		timer = new Timer();	
-		//Climber.setPID(Robot.m_climber.getPIDControllerArm1(), .2 , 1e-4, 1);
-		//Climber.setPID(Robot.m_climber.getPIDControllerArm2(), .2 , 1e-4, 1);
 		mOI = new OI(this);
 		mOI.registerControls();
 		swerveDriveSubsystem.zeroGyro();
