@@ -12,12 +12,15 @@ import org.usfirst.frc.team5507.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AutoAlign extends Command {
-  public AutoAlign() {
+
+  private double targetPos;
+
+  public AutoAlign(double targetPos) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.swerveDriveSubsystem);
     requires(Robot.m_Limelight);
-    
+    this.targetPos = targetPos;
   }
 
   // Called just before this Command runs the first time
@@ -28,7 +31,7 @@ public class AutoAlign extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_Limelight.align();
+    Robot.m_Limelight.align(targetPos);
     
   }
 

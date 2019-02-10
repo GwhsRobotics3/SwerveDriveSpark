@@ -39,13 +39,16 @@ public class Limelight extends Subsystem {
   public static double limelightarea;
   public static double angleErr;
   public static boolean isView;
-  private double kP = .06;
-  private double kI = .001;
-  private double kD = 0.0005;
+  private double kP = .0657;
+  private double kI = .00138; //0/001387
+  private double kD = 0.001;
+  private double rI = 0.005;
   private double xErr = 0;
   private double xIErr = 0;
+  private double rIErr = 0;
+  private boolean happy = false;
+  private double xOffset = 1;
   private ArrayList<Double> prevX = new ArrayList<Double>(); 
-
   public static final double WIDTH = 320;
   public static final double HEIGHT = 240;
 
@@ -54,6 +57,13 @@ public class Limelight extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new ShowLimelight());
+  }
+
+  public void resetHappy()
+  {
+    happy = false;
+    xIErr = 0;
+    rIErr = 0;
   }
 
   public  void switchModes() {
@@ -76,46 +86,59 @@ public class Limelight extends Subsystem {
     SmartDashboard.putNumber("Gyro Angle", (Robot.swerveDriveSubsystem.getGyroAngle()));
   }
 
-  public void align() //check the values on limelight
+  public void align(double targetPos) //check the values on limelight
   {
+    Robot.swerveDriveSubsystem.setIsAuto(true); 
     limelightx = tx.getDouble(0.3);
+    limelightx += xOffset;
     limelighty = ty.getDouble(0.3);
     limelightarea = ta.getDouble(0.3);
     isView = tv.getBoolean(true);
-    
-    angleErr = 0 - (Robot.swerveDriveSubsystem.getGyroAngle() % 180);
+    angleErr = targetPos - (Robot.swerveDriveSubsystem.getGyroAngle() % 360);
     double rotation = 0;
     double strafe = 0;
+    double forward = 0;
     prevX.add(angleErr);
     double dx = 0;
-
-    if(prevX.size() > 2) 
-    dx = (prevX.get(prevX.size()-1) - prevX.get(prevX.size()-2))/.02;
-
+    if(prevX.size() > 2) dx = (prevX.get(prevX.size()-1) - prevX.get(prevX.size()-2))/.02;
     System.out.println("DX : " + dx);
-    
 
     xErr = 0 - limelightx;
     xIErr += (xErr)*.02;
+    if(Math.abs(angleErr) < 4) {
+      rIErr += angleErr * .02;
+    }
+    else {
+      if(angleErr < 0) {
+        rIErr += -4*.02;
+      }
+      else {
+        rIErr += 4*.02;
+      }
+    }
     
-
-    if (Math.abs(limelightx) > .5)
+    if (Math.abs(limelightx) > .5) {
       strafe = kP*xErr + kI*xIErr;
-    
-    if(Math.abs(angleErr) > .5) {
-      rotation = (.005 * angleErr) + (dx * kD);
+      
+    }
+    if(Math.abs(angleErr) > 1.5 && Math.abs(limelightx) < 15) {
+      rotation = (.0025 * angleErr) + (dx * kD) + rIErr*rI;
       System.out.println(angleErr);
+      forward = 0.35;
     }
-
-    if(limelightarea > 25) {
-      rotation = 0;
+    forward = 0.35; // goes forward until area > 20
+    if(limelightarea > 20) {
+      forward = 0;  
+      if(Math.abs(angleErr) < 1.5 && Math.abs(limelightx) < 1.5) {
+        happy = true;
+      }
+    }
+    if(happy) {
       strafe = 0;
+      forward = 0.35;
     }
-
-    if(isView) 
-      Robot.swerveDriveSubsystem.holonomicDrive(.225, -strafe, rotation); //forward: .3 * (1/limelightarea)
-    else 
-      Robot.swerveDriveSubsystem.holonomicDrive(.225, -strafe, 0);
+    if(isView) Robot.swerveDriveSubsystem.holonomicDrive(forward, -strafe, rotation); //forward: .3 * (1/limelightarea)
+    else Robot.swerveDriveSubsystem.holonomicDrive(forward, -strafe, 0);
     
   }
 }

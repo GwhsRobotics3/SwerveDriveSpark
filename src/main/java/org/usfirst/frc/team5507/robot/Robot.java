@@ -39,7 +39,8 @@ public class Robot extends TimedRobot {
 	public AHRS m_ahrs;
 	public static Command m_autoCommand;
 	SendableChooser<Integer> m_chooser = new SendableChooser<>();
-	
+	SendableChooser<Integer> m_anglechooser = new SendableChooser<>();
+
 	private static OI mOI;
 	public static OI getOI() {
 		return mOI;
@@ -52,6 +53,14 @@ public class Robot extends TimedRobot {
 	private static final int START_RIGHT_1 = 3;
 	private static final int START_CENTER_1 = 4;
 	private static final int START_LEFT_1 = 5;
+
+	//Angle Chooser System
+	private static final int FRONT_CARGO = 0;
+	private static final int RIGHT_CARGO = 1;
+	private static final int LEFT_CARGO = 2;
+	private static final int RIGHT_ROCKET = 3;
+	private static final int LEFT_ROCKET = 4;
+	private static final int LOADING_STATION = 5;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -70,12 +79,20 @@ public class Robot extends TimedRobot {
 		mOI.registerControls();
 		swerveDriveSubsystem.zeroGyro();
 
-		m_chooser.addDefault("Get off hab zone", START_DEFAULT);
-		m_chooser.addObject("Starting level 2 right", START_RIGHT_2);
-		m_chooser.addObject("Starting level 2 left", START_LEFT_2);
-		m_chooser.addObject("Starting level 1 right", START_RIGHT_1);
-		m_chooser.addObject("Starting level 1 center", START_CENTER_1);
-		m_chooser.addObject("Starting level 1 left", START_LEFT_1);
+		m_chooser.setDefaultOption("Get off hab zone", START_DEFAULT);
+		m_chooser.addOption("Starting level 2 right", START_RIGHT_2);
+		m_chooser.addOption("Starting level 2 left", START_LEFT_2);
+		m_chooser.addOption("Starting level 1 right", START_RIGHT_1);
+		m_chooser.addOption("Starting level 1 center", START_CENTER_1);
+		m_chooser.addOption("Starting level 1 left", START_LEFT_1);
+
+		m_anglechooser.setDefaultOption("Front Cargo", FRONT_CARGO);
+		m_anglechooser.addOption("Loading Station", LOADING_STATION);
+		m_anglechooser.addOption("Right Cargo", RIGHT_CARGO);
+		m_anglechooser.addOption("Left Cargo", LEFT_CARGO);
+		m_anglechooser.addOption("Right Rocket", RIGHT_ROCKET);
+		m_anglechooser.addOption("Left Rocket", LEFT_ROCKET);
+		
 	}
 
 	@Override
@@ -90,6 +107,8 @@ public class Robot extends TimedRobot {
 			//System.out.println("Module " + i  + ": " + swerveDriveSubsystem.getSwerveModule(i).getCurrentAngle());
 		}
 	//System.out.println("Module 2: " + swerveDriveSubsystem.getSwerveModule(2).getAngleMotor().getOutputCurrent());
+	SmartDashboard.putData("AutoChooser", m_chooser);
+	SmartDashboard.putData("AngleChooser", m_anglechooser);
 		
 	}
 
