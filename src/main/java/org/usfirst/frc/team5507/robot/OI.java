@@ -54,7 +54,7 @@ public class OI {
 		mController.getYButton().whenPressed(new ClimberPullDownArm2());
 		mController.getYButton().whenReleased(new StopArm2());
 		
-		mController.getStartButton().whenPressed(new ZeroNavX());
+		mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(Robot.swerveDriveSubsystem));
 		 //A and B arm 1
 		 //X and Y arm 2
 
