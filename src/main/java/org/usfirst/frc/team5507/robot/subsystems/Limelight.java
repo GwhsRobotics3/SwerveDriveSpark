@@ -39,6 +39,7 @@ public class Limelight extends Subsystem {
   public static double limelightarea;
   public static double angleErr;
   public static boolean isView;
+  private double dx = 0;
   private double kP = .0657;
   private double kI = .00138; //0/001387
   private double kD = 0.001;
@@ -48,6 +49,9 @@ public class Limelight extends Subsystem {
   private double rIErr = 0;
   private boolean happy = false;
   private double xOffset = 1;
+  private double rotation = 0;
+  private double strafe = 0;
+  private double forward = 0.35;
   private ArrayList<Double> prevX = new ArrayList<Double>(); 
   public static final double WIDTH = 320;
   public static final double HEIGHT = 240;
@@ -65,7 +69,7 @@ public class Limelight extends Subsystem {
     xIErr = 0;
     rIErr = 0;
   }
-
+  
   public  void switchModes() {
     if (camMode == 0) {
       NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
@@ -86,25 +90,17 @@ public class Limelight extends Subsystem {
     SmartDashboard.putNumber("Gyro Angle", (Robot.swerveDriveSubsystem.getGyroAngle()));
   }
 
-  public void align(double targetPos) //check the values on limelight
-  {
-    Robot.swerveDriveSubsystem.setIsAuto(true); 
-    limelightx = tx.getDouble(0.3);
-    limelightx += xOffset;
-    limelighty = ty.getDouble(0.3);
-    limelightarea = ta.getDouble(0.3);
-    isView = tv.getBoolean(true);
-    angleErr = targetPos - (Robot.swerveDriveSubsystem.getGyroAngle() % 360);
-    double rotation = 0;
-    double strafe = 0;
-    double forward = 0;
-    prevX.add(angleErr);
-    double dx = 0;
-    if(prevX.size() > 2) dx = (prevX.get(prevX.size()-1) - prevX.get(prevX.size()-2))/.02;
-    System.out.println("DX : " + dx);
-
+  public double getStrafe() {
     xErr = 0 - limelightx;
     xIErr += (xErr)*.02;
+    
+    if (Math.abs(limelightx) > .5) {
+      strafe = kP*xErr + kI*xIErr;
+    }
+    return strafe;
+  }
+
+  public double getRotation() {
     if(Math.abs(angleErr) < 4) {
       rIErr += angleErr * .02;
     }
@@ -116,29 +112,53 @@ public class Limelight extends Subsystem {
         rIErr += 4*.02;
       }
     }
-    
-    if (Math.abs(limelightx) > .5) {
-      strafe = kP*xErr + kI*xIErr;
-      
-    }
     if(Math.abs(angleErr) > 1.5 && Math.abs(limelightx) < 15) {
       rotation = (.0025 * angleErr) + (dx * kD) + rIErr*rI;
       System.out.println(angleErr);
       forward = 0.35;
     }
-    forward = 0.35; // goes forward until area > 20
+    return rotation;
+  }
+
+  public boolean isHappy() {
     if(limelightarea > 20) {
       forward = 0;  
       if(Math.abs(angleErr) < 1.5 && Math.abs(limelightx) < 1.5) {
         happy = true;
       }
     }
-    if(happy) {
+    return happy;
+  }
+
+  public double getAngleErr(double targetAngle) {
+    angleErr = targetAngle - (Robot.swerveDriveSubsystem.getGyroAngle() % 360);
+    return angleErr;
+  }
+
+  public void align(double targetAngle) //check the values on limelight
+  {
+    Robot.swerveDriveSubsystem.setIsAuto(true); 
+    limelightx = tx.getDouble(0.3);
+    limelightx += xOffset;
+    limelighty = ty.getDouble(0.3);
+    limelightarea = ta.getDouble(0.3);
+    isView = tv.getBoolean(true);
+    prevX.add(getAngleErr(targetAngle));
+
+    if(prevX.size() > 2) {
+      dx = (prevX.get(prevX.size()-1) - prevX.get(prevX.size()-2)) / .02;
+    }
+   
+    if(isHappy()) {
       strafe = 0;
       forward = 0.35;
     }
-    if(isView) Robot.swerveDriveSubsystem.holonomicDrive(forward, -strafe, rotation); //forward: .3 * (1/limelightarea)
-    else Robot.swerveDriveSubsystem.holonomicDrive(forward, -strafe, 0);
-    
+
+    if(isView) {
+      Robot.swerveDriveSubsystem.holonomicDrive(forward, -getStrafe(), getRotation());
+    }
+    else {
+      Robot.swerveDriveSubsystem.holonomicDrive(forward, -getStrafe(), 0);
+    } 
   }
 }
