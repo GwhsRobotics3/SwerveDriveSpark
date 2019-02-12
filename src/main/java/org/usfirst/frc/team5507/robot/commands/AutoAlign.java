@@ -18,7 +18,7 @@ public class AutoAlign extends Command {
   public AutoAlign(double targetPos) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.swerveDriveSubsystem);
+    requires(Robot.swerveDriveSubsystem);  
     requires(Robot.m_Limelight);
     this.targetPos = targetPos;
   }
