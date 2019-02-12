@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoGetOffHab extends CommandGroup {
   
   public AutoGetOffHab() {
-   
     addSequential(new DriveForwardDistance(2));
   }
 }
