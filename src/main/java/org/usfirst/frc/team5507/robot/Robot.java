@@ -4,7 +4,6 @@ package org.usfirst.frc.team5507.robot;
 import com.kauailabs.navx.frc.AHRS;
 
 import org.usfirst.frc.team5507.robot.commands.AutoAlign;
-import org.usfirst.frc.team5507.robot.subsystems.Cargo;
 import org.usfirst.frc.team5507.robot.subsystems.Climber;
 import org.usfirst.frc.team5507.robot.subsystems.HatchDelivery;
 import org.usfirst.frc.team5507.robot.subsystems.Limelight;
@@ -37,7 +36,6 @@ public class Robot extends TimedRobot {
 	public static Climber m_climber;
 	public static HatchDelivery m_HatchDelivery;
 	public static Limelight m_Limelight;
-	public static Cargo m_cargo;
 	public Compressor compressor;
 	public AHRS m_ahrs;
 	public static Command m_autoCommand;
@@ -78,7 +76,6 @@ public class Robot extends TimedRobot {
 		m_Limelight = new Limelight();
 		m_climber = new Climber();
 		m_HatchDelivery = new HatchDelivery();
-		m_cargo = new Cargo();
 		timer = new Timer();	
 		mOI = new OI(this);
 		mOI.registerControls();

@@ -16,7 +16,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import org.usfirst.frc.team5507.robot.Robot;
 import org.usfirst.frc.team5507.robot.commands.ClimberStop;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -101,6 +100,7 @@ public class Climber extends Subsystem {
     Controller.setD(d);
   }
 
+
   public void armOneZero()
   {
     NPidController1.setReference(0, ControlType.kPosition);
@@ -121,14 +121,6 @@ public class Climber extends Subsystem {
 
   public void stopArm2() {
     arm2.stopMotor();
-  }
-
-  public void moveArm1(double speed) {
-    arm1.set(speed);
-  }
-
-  public void moveArm2(double speed) {
-    arm2.set(speed);
   }
 }
 
