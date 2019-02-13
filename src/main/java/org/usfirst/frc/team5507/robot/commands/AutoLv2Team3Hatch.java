@@ -17,6 +17,6 @@ public class AutoLv2Team3Hatch extends CommandGroup {
    addSequential(new DriveForwardDistance(15, 0.5));
    addSequential(new RotateAngle(-90));
    addSequential(new AutoAlign(-90));
-   addSequential(new HatchToggle());
+  // addSequential(new HatchToggle());
   }
 }
