@@ -131,7 +131,7 @@ public class Limelight extends Subsystem {
   }
 
   public double getAngleErr(double targetAngle) {
-    angleErr = targetAngle - (Robot.swerveDriveSubsystem.getGyroAngle() % 360);
+    double angleErr = targetAngle - (Robot.swerveDriveSubsystem.getGyroAngle() % 360);
     return angleErr;
   }
 

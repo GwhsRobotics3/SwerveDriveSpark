@@ -26,7 +26,7 @@ public class ClimberArm1 extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_climber.moveArm1(Robot.getOI().getController().getLeftTriggerValue());
+    Robot.m_climber.moveArm1(Robot.getOI().getClimberController().getLeftYValue());
   }
 
   // Make this return true when this Command no longer needs to run execute()

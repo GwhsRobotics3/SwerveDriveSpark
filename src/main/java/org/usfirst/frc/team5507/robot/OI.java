@@ -3,7 +3,6 @@ package org.usfirst.frc.team5507.robot;
 import org.usfirst.frc.team5507.robot.commands.AdjustFieldOrientedAngleCommand;
 import org.usfirst.frc.team5507.robot.commands.AutoAlign;
 import org.usfirst.frc.team5507.robot.commands.CargoToggle;
-import org.usfirst.frc.team5507.robot.commands.ClimberLatch;
 import org.usfirst.frc.team5507.robot.commands.HatchToggle;
 import org.usfirst.frc.team5507.robot.commands.ResetDrivetrainEncoderCommand;
 import org.usfirst.frc.team5507.robot.commands.StopArm1;
@@ -38,10 +37,11 @@ public class OI {
 		mController.getBButton().whenPressed(new HatchToggle());
 		mController.getXButton().whileHeld(new AutoAlign(Robot.targetPos));
 		mController.getYButton().whenPressed(new ZeroNavX());
+		mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(Robot.swerveDriveSubsystem));
 
 		climbController.getLeftBumperButton().whenPressed(new StopArm1());
 		climbController.getRightBumperButton().whenPressed(new StopArm2());
-		mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(Robot.swerveDriveSubsystem));
+		
 		
 		//mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(mRobot.getDrivetrain()));
 		//mController.getDPadButton(DPadButton.Direction.LEFT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), false));
@@ -51,5 +51,9 @@ public class OI {
 
 	public IGamepad getController() {
 		return mController;
+	}
+
+	public IGamepad getClimberController() {
+		return climbController;
 	}
 }
