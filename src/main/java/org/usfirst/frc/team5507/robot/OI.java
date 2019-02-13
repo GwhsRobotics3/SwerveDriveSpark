@@ -2,10 +2,12 @@ package org.usfirst.frc.team5507.robot;
 
 import org.usfirst.frc.team5507.robot.commands.AdjustFieldOrientedAngleCommand;
 import org.usfirst.frc.team5507.robot.commands.AutoAlign;
-import org.usfirst.frc.team5507.robot.commands.CargoToggle;
-import org.usfirst.frc.team5507.robot.commands.ClimberLatch;
-import org.usfirst.frc.team5507.robot.commands.HatchToggle;
+import org.usfirst.frc.team5507.robot.commands.CargoIn;
+import org.usfirst.frc.team5507.robot.commands.CargoOut;
+import org.usfirst.frc.team5507.robot.commands.HatchIn;
+import org.usfirst.frc.team5507.robot.commands.HatchOut;
 import org.usfirst.frc.team5507.robot.commands.ResetDrivetrainEncoderCommand;
+import org.usfirst.frc.team5507.robot.commands.ResetHappy;
 import org.usfirst.frc.team5507.robot.commands.StopArm1;
 import org.usfirst.frc.team5507.robot.commands.StopArm2;
 import org.usfirst.frc.team5507.robot.commands.SwitchLedModes;
@@ -34,14 +36,23 @@ public class OI {
 
 	public void registerControls() { 
 		//mController.getAButton().whenPressed(new ResetDrivetrainEncoderCommand(mRobot.getDrivetrain()));
-		mController.getAButton().whenPressed(new CargoToggle());
-		mController.getBButton().whenPressed(new HatchToggle());
+		mController.getAButton().whenPressed(new CargoOut());
+		mController.getAButton().whenReleased(new CargoIn());
+
+		mController.getBButton().whenPressed(new HatchOut());
+		mController.getBButton().whenReleased(new HatchIn());
+
 		mController.getXButton().whileHeld(new AutoAlign(Robot.targetPos));
+		mController.getXButton().whenReleased(new ResetHappy());
+		
 		mController.getYButton().whenPressed(new ZeroNavX());
+		mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(Robot.swerveDriveSubsystem));
+
+
 
 		climbController.getLeftBumperButton().whenPressed(new StopArm1());
 		climbController.getRightBumperButton().whenPressed(new StopArm2());
-		mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(Robot.swerveDriveSubsystem));
+		
 		
 		//mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(mRobot.getDrivetrain()));
 		//mController.getDPadButton(DPadButton.Direction.LEFT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), false));

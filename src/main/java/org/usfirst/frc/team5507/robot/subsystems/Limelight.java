@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Limelight extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-
+  private final double REFRESH_RATE = .02;
   private static int camMode = 0;
   public static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -41,7 +41,7 @@ public class Limelight extends Subsystem {
   public static boolean isView;
   private double dx = 0;
   private double kP = .0657;
-  private double kI = .00138; //0/001387
+  private double kI = .00138; 
   private double kD = 0.001;
   private double rI = 0.005;
   private double xErr = 0;
@@ -52,9 +52,9 @@ public class Limelight extends Subsystem {
   private double rotation = 0;
   private double strafe = 0;
   private double forward = 0.35;
-  private ArrayList<Double> prevX = new ArrayList<Double>(); 
-  public static final double WIDTH = 320;
-  public static final double HEIGHT = 240;
+  //private ArrayList<Double> prevX = new ArrayList<Double>(); 
+  private Double currAngleErr; // starts as null
+  private Double prevAngleErr; // starts as null
 
   @Override
   public void initDefaultCommand() {
@@ -92,7 +92,7 @@ public class Limelight extends Subsystem {
 
   public double getStrafe() {
     xErr = 0 - limelightx;
-    xIErr += (xErr)*.02;
+    xIErr += (xErr)*REFRESH_RATE;
     
     if (Math.abs(limelightx) > .5) {
       strafe = kP*xErr + kI*xIErr;
@@ -102,14 +102,14 @@ public class Limelight extends Subsystem {
 
   public double getRotation() {
     if(Math.abs(angleErr) < 4) {
-      rIErr += angleErr * .02;
+      rIErr += angleErr * REFRESH_RATE;
     }
     else {
       if(angleErr < 0) {
-        rIErr += -4*.02;
+        rIErr += -4*REFRESH_RATE;
       }
       else {
-        rIErr += 4*.02;
+        rIErr += 4*REFRESH_RATE;
       }
     }
     if(Math.abs(angleErr) > 1.5 && Math.abs(limelightx) < 15) {
@@ -135,6 +135,18 @@ public class Limelight extends Subsystem {
     return angleErr;
   }
 
+  public double setDX(double targetAngle)
+  {
+    Double var = currAngleErr;
+    currAngleErr = Robot.m_Limelight.getAngleErr(targetAngle);
+    if(var != null)
+    {
+      prevAngleErr = var;
+      return (currAngleErr - prevAngleErr) / REFRESH_RATE;
+    }
+    return 0;
+  }
+
   public void align(double targetAngle) //check the values on limelight
   {
     Robot.swerveDriveSubsystem.setIsAuto(true); 
@@ -143,11 +155,9 @@ public class Limelight extends Subsystem {
     limelighty = ty.getDouble(0.3);
     limelightarea = ta.getDouble(0.3);
     isView = tv.getBoolean(true);
-    prevX.add(getAngleErr(targetAngle));
+    dx = Robot.m_Limelight.setDX(targetAngle);
 
-    if(prevX.size() > 2) {
-      dx = (prevX.get(prevX.size()-1) - prevX.get(prevX.size()-2)) / .02;
-    }
+    
    
     if(isHappy()) {
       strafe = 0;

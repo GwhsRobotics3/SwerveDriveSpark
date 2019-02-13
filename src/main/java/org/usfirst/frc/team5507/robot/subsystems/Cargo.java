@@ -7,7 +7,8 @@
 
 package org.usfirst.frc.team5507.robot.subsystems;
 
-import org.usfirst.frc.team5507.robot.commands.CargoToggle;
+import org.usfirst.frc.team5507.robot.commands.CargoIn;
+import org.usfirst.frc.team5507.robot.commands.CargoOut;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -25,14 +26,14 @@ public class Cargo extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new CargoToggle());
+    setDefaultCommand(new CargoIn());
   }
 
   public void pushCargo() {
     solenoid1.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void reset() {
+  public void pullCargo() {
     solenoid1.set(DoubleSolenoid.Value.kForward);
   }
 
