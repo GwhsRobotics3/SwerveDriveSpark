@@ -4,6 +4,9 @@ import org.usfirst.frc.team5507.robot.commands.AdjustFieldOrientedAngleCommand;
 import org.usfirst.frc.team5507.robot.commands.AutoAlign;
 import org.usfirst.frc.team5507.robot.commands.CargoIn;
 import org.usfirst.frc.team5507.robot.commands.CargoOut;
+import org.usfirst.frc.team5507.robot.commands.ClimberArm1;
+import org.usfirst.frc.team5507.robot.commands.ClimberArm2;
+import org.usfirst.frc.team5507.robot.commands.ClimberStop;
 import org.usfirst.frc.team5507.robot.commands.HatchIn;
 import org.usfirst.frc.team5507.robot.commands.HatchOut;
 import org.usfirst.frc.team5507.robot.commands.ResetDrivetrainEncoderCommand;
@@ -36,10 +39,10 @@ public class OI {
 
 	public void registerControls() { 
 		//mController.getAButton().whenPressed(new ResetDrivetrainEncoderCommand(mRobot.getDrivetrain()));
-		mController.getAButton().whenPressed(new CargoOut());
+		mController.getAButton().whileHeld(new CargoOut());
 		mController.getAButton().whenReleased(new CargoIn());
 
-		mController.getBButton().whenPressed(new HatchOut());
+		mController.getBButton().whileHeld(new HatchOut());
 		mController.getBButton().whenReleased(new HatchIn());
 
 		mController.getXButton().whileHeld(new AutoAlign(Robot.targetPos));
@@ -52,7 +55,11 @@ public class OI {
 
 		climbController.getLeftBumperButton().whenPressed(new StopArm1());
 		climbController.getRightBumperButton().whenPressed(new StopArm2());
+		climbController.getAButton().whileHeld(new ClimberArm1());
+		climbController.getBButton().whileHeld(new ClimberArm2());
 		
+		climbController.getAButton().whenReleased(new StopArm1());
+		climbController.getBButton().whenReleased(new StopArm2());
 		
 		//mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(mRobot.getDrivetrain()));
 		//mController.getDPadButton(DPadButton.Direction.LEFT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), false));
@@ -62,5 +69,9 @@ public class OI {
 
 	public IGamepad getController() {
 		return mController;
+	}
+
+	public IGamepad getClimberController() {
+		return climbController;
 	}
 }

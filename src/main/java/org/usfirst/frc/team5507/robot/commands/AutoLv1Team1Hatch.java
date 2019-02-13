@@ -12,9 +12,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoLv1Team1Hatch extends CommandGroup {
  
   public AutoLv1Team1Hatch() {
-    addSequential(new DriveForwardDistance(18, 0.5));
+    addSequential(new DriveForwardDistance(18, 0.5)); //18 
     addSequential(new RotateAngle(90));
     addSequential(new AutoAlign(90));
-    //addSequential(new HatchToggle());
+    addSequential(new HatchOut());
+    addSequential(new HatchIn());
   }
 }

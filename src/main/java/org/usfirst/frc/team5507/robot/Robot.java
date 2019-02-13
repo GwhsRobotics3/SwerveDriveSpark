@@ -4,6 +4,7 @@ package org.usfirst.frc.team5507.robot;
 import com.kauailabs.navx.frc.AHRS;
 
 import org.usfirst.frc.team5507.robot.commands.AutoAlign;
+import org.usfirst.frc.team5507.robot.commands.AutoGetOffHab;
 import org.usfirst.frc.team5507.robot.subsystems.Cargo;
 import org.usfirst.frc.team5507.robot.subsystems.Climber;
 import org.usfirst.frc.team5507.robot.subsystems.HatchDelivery;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,6 +48,7 @@ public class Robot extends TimedRobot {
 	public static AutoAlign m_align;
 	private static OI mOI;
 	public static double targetPos;
+	
 	public static OI getOI() {
 		return mOI;
 	}
@@ -175,6 +178,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		
 	}
 
 	/**
@@ -187,7 +191,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		//compressor.setClosedLoopControl(true);
+		compressor.setClosedLoopControl(true);
 
 	}
 
@@ -211,7 +215,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		swerveDriveSubsystem.holonomicDrive(0.2, 0, 0);
+		swerveDriveSubsystem.driveForwardDistance(6, swerveDriveSubsystem.getNavX().getYaw(), 0.5);
 	}
 
 	public SwerveDriveSubsystem getDrivetrain() {
