@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class HatchDelivery extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  DoubleSolenoid solenoid1 = new DoubleSolenoid(0, 1);
+  DoubleSolenoid solenoid1 = new DoubleSolenoid(4, 5);
   DoubleSolenoid solenoid2 = new DoubleSolenoid(2, 3);
   private boolean isRetracted = true;
 

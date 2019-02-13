@@ -9,9 +9,12 @@ package org.usfirst.frc.team5507.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutoGetOffHab extends CommandGroup {
-  
-  public AutoGetOffHab() {
-    addSequential(new DriveForwardDistance(2, 0.5));
+public class AutoLv2Team1Hatch extends CommandGroup {
+ 
+  public AutoLv2Team1Hatch() {
+   addSequential(new DriveForwardDistance(22,0.5));
+   addSequential(new RotateAngle(90));
+   addSequential(new AutoAlign(90));
+   addSequential(new HatchToggle());
   }
 }

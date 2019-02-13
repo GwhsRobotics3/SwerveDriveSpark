@@ -126,32 +126,28 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 		}
 	}
 
-	public void driveForwardDistance(double targetPos, double angle){
-		double angleError = ((angle - mNavX.getYaw()) / 180)*10;
-		angleError = Math.min(angleError, 1);
-		angleError = Math.max(angleError, -1);
-		double speed = 0;
-		if((targetPos > 0) && (mSwerveModules[0].getDriveDistance() < (targetPos/12))) {
-			speed = 0.4;
+	public void resetAllEncoders() {
+		for(int i = 0; i < 4; i++) {
+			mSwerveModules[i].resetEncoder();
 		}
-		if((targetPos < 0) && (mSwerveModules[0].getDriveDistance() > (targetPos/12))) {
-			speed = -0.4;
-		}
-		holonomicDrive(speed, 0, angleError);
 	}
 
-	public void driveSidewaysDistance(double targetPos, double angle) {
+	public void driveForwardDistance(double targetPos, double angle, double speed){
 		double angleError = ((angle - mNavX.getYaw()) / 180)*10;
 		angleError = Math.min(angleError, 1);
 		angleError = Math.max(angleError, -1);
-		double speed = 0;
-		if((targetPos > 0) && (mSwerveModules[0].getDriveDistance() < (targetPos/12))) {
-			speed = 0.4;
-		}
-		if((targetPos < 0) && (mSwerveModules[0].getDriveDistance() > (targetPos/12))) {
-			speed = -0.4;
-		}
+		holonomicDrive(speed, 0, angleError);
+	} // 2/12/19 3:37 PM i want boba and a burrito so bad right now !!!!!!!!!
+
+	public void driveSidewaysDistance(double targetPos, double angle, double speed) {
+		double angleError = ((angle - mNavX.getYaw()) / 180)*10;
+		angleError = Math.min(angleError, 1);
+		angleError = Math.max(angleError, -1);
 		holonomicDrive(0, speed, angleError);
+	}
+
+	public double calculateErrPos(double d1) {
+		return d1 - mSwerveModules[0].getDriveDistance();
 	}
 
 }

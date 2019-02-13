@@ -14,15 +14,17 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveSidewaysDistance extends Command {
   private double d1; 
   private double startAngle;
+  private double speed;
   public static final double WHEEL_CIRCUMFERENCE = 4 * Math.PI;
   public static final double TOTAL_SENSOR_POS = 1024;
   public static final double DISTANCE = WHEEL_CIRCUMFERENCE / TOTAL_SENSOR_POS;
 
-  public DriveSidewaysDistance(double d) {
+  public DriveSidewaysDistance(double d, double speed) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.swerveDriveSubsystem);
     d1 = DISTANCE * d * 12;
+    this.speed = speed;
   }
 
   // Called just before this Command runs the first time
@@ -34,14 +36,13 @@ public class DriveSidewaysDistance extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.swerveDriveSubsystem.driveForwardDistance(d1, startAngle);
+    Robot.swerveDriveSubsystem.driveForwardDistance(d1, startAngle, speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    double errPos = d1 - Robot.swerveDriveSubsystem.getSwerveModule(0).getDriveDistance();
-    if(Math.abs(errPos) < DISTANCE) {
+    if(Math.abs(Robot.swerveDriveSubsystem.calculateErrPos(d1)) < DISTANCE){
       return true;
     }
     return false;
