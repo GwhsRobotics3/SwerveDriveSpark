@@ -9,13 +9,13 @@ package org.usfirst.frc.team5507.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutoLv1Team1Hatch extends CommandGroup {
- 
-  public AutoLv1Team1Hatch() {
-    addSequential(new DriveForwardDistance(18, 0.5));  
-    addSequential(new RotateAngle(90));
-    addSequential(new AutoAlign(90));
-    addSequential(new HatchOut());
-    addSequential(new HatchIn());
+public class AutoLv2Team3Cargo extends CommandGroup {
+  
+  public AutoLv2Team3Cargo() {
+    addSequential(new DriveForwardDistance(15, 0.5));
+    addSequential(new RotateAngle(-90));
+    addSequential(new AutoAlign(-90));
+    addSequential(new CargoOut());
+    addSequential(new CargoIn());
   }
 }
