@@ -6,6 +6,7 @@ import org.usfirst.frc.team5507.robot.commands.CargoIn;
 import org.usfirst.frc.team5507.robot.commands.CargoOut;
 import org.usfirst.frc.team5507.robot.commands.ClimberArm1;
 import org.usfirst.frc.team5507.robot.commands.ClimberArm2;
+import org.usfirst.frc.team5507.robot.commands.ClimberMoveHand;
 import org.usfirst.frc.team5507.robot.commands.ClimberStop;
 import org.usfirst.frc.team5507.robot.commands.HatchIn;
 import org.usfirst.frc.team5507.robot.commands.HatchOut;
@@ -61,6 +62,10 @@ public class OI {
 		climbController.getAButton().whenReleased(new StopArm1());
 		climbController.getBButton().whenReleased(new StopArm2());
 		
+		climbController.getXButton().whileHeld(new ClimberMoveHand(1));
+		climbController.getXButton().whenReleased(new ClimberMoveHand(0));
+		climbController.getYButton().whileHeld(new ClimberMoveHand(-1));
+		climbController.getYButton().whenReleased(new ClimberMoveHand(0));
 		//mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(mRobot.getDrivetrain()));
 		//mController.getDPadButton(DPadButton.Direction.LEFT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), false));
 		//mController.getDPadButton(DPadButton.Direction.RIGHT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), true));

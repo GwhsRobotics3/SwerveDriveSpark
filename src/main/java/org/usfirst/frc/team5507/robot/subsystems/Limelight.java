@@ -49,7 +49,7 @@ public class Limelight extends Subsystem {
   private double rIErr = 0;
   private boolean happy = false;
   private double xOffset = 1;
-  private double rotation = 0;
+  private double rotation = 0.0;
   private double strafe = 0;
   private double forward = 0.35;
   //private ArrayList<Double> prevX = new ArrayList<Double>(); 
@@ -90,13 +90,23 @@ public class Limelight extends Subsystem {
     SmartDashboard.putNumber("Gyro Angle", (Robot.swerveDriveSubsystem.getGyroAngle()));
   }
 
+  public boolean getHappy()
+  {
+    return happy;
+  }
   public double getStrafe() {
-    xErr = 0 - limelightx;
+    xErr = xOffset - limelightx;
     xIErr += (xErr)*REFRESH_RATE;
     
     if (Math.abs(limelightx) > .5) {
       strafe = kP*xErr + kI*xIErr;
     }
+
+    if(isHappy()) {
+      strafe = 0;
+      
+    }
+    System.out.println("STRAFE: " + strafe);
     return strafe;
   }
 
@@ -113,10 +123,11 @@ public class Limelight extends Subsystem {
       }
     }
     if(Math.abs(angleErr) > 1.5 && Math.abs(limelightx) < 15) {
-      rotation = (.0025 * angleErr) + (dx * kD) + rIErr*rI;
+      rotation = (.0035 * angleErr) + (dx * kD) + rIErr*rI;
       System.out.println(angleErr);
       forward = 0.35;
     }
+    System.out.println("ROTATION: " + rotation);
     return rotation;
   }
 
@@ -149,6 +160,7 @@ public class Limelight extends Subsystem {
 
   public void align(double targetAngle) //check the values on limelight
   {
+    angleErr = this.getAngleErr(targetAngle);
     Robot.swerveDriveSubsystem.setIsAuto(true); 
     limelightx = tx.getDouble(0.3);
     limelightx += xOffset;
@@ -156,13 +168,10 @@ public class Limelight extends Subsystem {
     limelightarea = ta.getDouble(0.3);
     isView = tv.getBoolean(true);
     dx = Robot.m_Limelight.setDX(targetAngle);
-
+    forward = 0.35;
     
    
-    if(isHappy()) {
-      strafe = 0;
-      forward = 0.35;
-    }
+    
 
     if(isView) {
       Robot.swerveDriveSubsystem.holonomicDrive(forward, -getStrafe(), getRotation());
