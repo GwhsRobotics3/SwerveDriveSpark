@@ -26,7 +26,7 @@ public class ClimberArm2 extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Math.abs(Robot.getOI().getClimberController().getRightYValue()) > .2)
+    if(Math.abs(Robot.getOI().getClimberController().getRightYValue()) > .15)
     {
      Robot.m_climber.moveArm2(Robot.getOI().getClimberController().getRightYValue());
     }
@@ -45,11 +45,13 @@ public class ClimberArm2 extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_climber.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

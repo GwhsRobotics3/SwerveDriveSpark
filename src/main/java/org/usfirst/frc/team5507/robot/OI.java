@@ -64,8 +64,13 @@ public class OI {
 		
 		climbController.getXButton().whileHeld(new ClimberMoveHand(1));
 		climbController.getXButton().whenReleased(new ClimberMoveHand(0));
+		
 		climbController.getYButton().whileHeld(new ClimberMoveHand(-1));
 		climbController.getYButton().whenReleased(new ClimberMoveHand(0));
+
+		
+
+
 		//mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(mRobot.getDrivetrain()));
 		//mController.getDPadButton(DPadButton.Direction.LEFT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), false));
 		//mController.getDPadButton(DPadButton.Direction.RIGHT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), true));
