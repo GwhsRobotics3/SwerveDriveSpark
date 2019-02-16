@@ -31,6 +31,7 @@ public class Limelight extends Subsystem {
   public static NetworkTable hatchTable = NetworkTableInstance.getDefault().getTable("limelight-hatch");
   public static NetworkTable cargoTable = NetworkTableInstance.getDefault().getTable("limelight");
   public static NetworkTable curNetworkTable = hatchTable;
+  private static int currCam = 0;
 
   public static NetworkTableEntry tx = curNetworkTable.getEntry("tx");
   public static NetworkTableEntry ty = curNetworkTable.getEntry("ty");
@@ -77,9 +78,11 @@ public class Limelight extends Subsystem {
   public static void setCamera(int camera) {
     if(camera == CARGO_CAM) {
       curNetworkTable = cargoTable;
+      currCam = 1;
     }
     else if (camera == HATCH_CAM) {
       curNetworkTable = hatchTable;
+      currCam = 0;
     }
     else {
       throw(new IllegalArgumentException("Camera out of range: " + camera));
@@ -97,23 +100,23 @@ public class Limelight extends Subsystem {
   
   public  void switchModes() {
     if (camMode == 0) {
-      NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
+      curNetworkTable.getEntry("camMode").setNumber(1);
       camMode = 1;
     } 
     else {
-      NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
+      curNetworkTable.getEntry("camMode").setNumber(0);
       camMode = 0;
     }
   }
 
   public void toggleCamera(){
-    if(camMode == 0) {
+    if(currCam == 0) {
       curNetworkTable = cargoTable;
-      camMode = 1;
+      currCam = 1;
     }
     else{
       curNetworkTable = hatchTable;
-      camMode = 0;
+      currCam = 0;
     }
   }
 
