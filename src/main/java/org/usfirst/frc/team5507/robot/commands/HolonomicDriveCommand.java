@@ -17,7 +17,7 @@ public class HolonomicDriveCommand extends Command {
 
 	private double deadband(double input) {
 		if (mDrivetrain.getIsAuto() && Math.abs(input) < 0.05) return input;
-		if (Math.abs(input) < 0.15) return 0;
+		if (Math.abs(input) < 0.25) return 0;
 		return input;
 	}
 

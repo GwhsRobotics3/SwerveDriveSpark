@@ -5,6 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import org.usfirst.frc.team5507.robot.commands.AutoAlign;
 import org.usfirst.frc.team5507.robot.commands.AutoGetOffHab;
+import org.usfirst.frc.team5507.robot.commands.ZeroNavX;
 import org.usfirst.frc.team5507.robot.subsystems.Cargo;
 import org.usfirst.frc.team5507.robot.subsystems.Climber;
 import org.usfirst.frc.team5507.robot.subsystems.HatchDelivery;
@@ -41,7 +42,6 @@ public class Robot extends TimedRobot {
 	public static Limelight m_Limelight;
 	public static Cargo m_cargo;
 	public Compressor compressor;
-	public AHRS m_ahrs;
 	public static Command m_autoCommand;
 	SendableChooser<Integer> m_chooser = new SendableChooser<>();
 	SendableChooser<Integer> m_alignChooser = new SendableChooser<Integer>();
@@ -178,7 +178,13 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		
+
+		swerveDriveSubsystem.zeroGyro();
+		m_autoCommand = new AutoGetOffHab();
+
+		if (m_autoCommand != null) {
+			m_autoCommand.start();
+		}
 	}
 
 	/**
@@ -187,6 +193,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		System.out.println(swerveDriveSubsystem.getNavX().getYaw());
+		
 	}
 
 	@Override

@@ -134,9 +134,10 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 
 	public void driveForwardDistance(double targetPos, double angle, double speed){
 		double angleError = ((angle - mNavX.getYaw()) / 180)*10;
+
 		angleError = Math.min(angleError, 1);
 		angleError = Math.max(angleError, -1);
-		holonomicDrive(speed, 0, angleError);
+		holonomicDrive(speed, 0, 0);
 	} // 2/12/19 3:37 PM i want boba and a burrito so bad right now !!!!!!!!!
 
 	public void driveSidewaysDistance(double targetPos, double angle, double speed) {
