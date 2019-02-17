@@ -5,6 +5,8 @@ import com.kauailabs.navx.frc.AHRS;
 
 import org.usfirst.frc.team5507.robot.commands.AutoAlign;
 import org.usfirst.frc.team5507.robot.commands.AutoGetOffHab;
+import org.usfirst.frc.team5507.robot.commands.AutoLv1Team2LeftHatch;
+import org.usfirst.frc.team5507.robot.commands.AutoLv1Team2RightHatch;
 import org.usfirst.frc.team5507.robot.commands.ZeroNavX;
 import org.usfirst.frc.team5507.robot.subsystems.Cargo;
 import org.usfirst.frc.team5507.robot.subsystems.Climber;
@@ -43,7 +45,7 @@ public class Robot extends TimedRobot {
 	public static Cargo m_cargo;
 	public Compressor compressor;
 	public static Command m_autoCommand;
-	SendableChooser<Integer> m_chooser = new SendableChooser<>();
+	SendableChooser<Integer> m_autoChooser = new SendableChooser<>();
 	SendableChooser<Integer> m_alignChooser = new SendableChooser<Integer>();
 	public static AutoAlign m_align;
 	private static OI mOI;
@@ -54,12 +56,9 @@ public class Robot extends TimedRobot {
 	}
 
 	//Auto system
-	private static final int START_DEFAULT = 0;
-	private static final int START_RIGHT_2 = 1;
-	private static final int START_LEFT_2 = 2;
-	private static final int START_RIGHT_1 = 3;
-	private static final int START_CENTER_1 = 4;
-	private static final int START_LEFT_1 = 5;
+	private static final int AUTO_OFF_1 = 0;
+	private static final int AUTO_MIDDLE_LEFT_HATCH = 1;
+	private static final int AUTO_MIDDLE_RIGHT_HATCH = 2;
 
 	//Angle Chooser System
 	private static final int FRONT_CARGO = 0;
@@ -95,32 +94,15 @@ public class Robot extends TimedRobot {
 		m_alignChooser.addOption("Loading Station ", LOADING_STATION);
 
 
-		m_chooser.setDefaultOption("Get off hab zone", START_DEFAULT);
-		m_chooser.addOption("Starting level 2 right", START_RIGHT_2);
-		m_chooser.addOption("Starting level 2 left", START_LEFT_2);
-		m_chooser.addOption("Starting level 1 right", START_RIGHT_1);
-		m_chooser.addOption("Starting level 1 center", START_CENTER_1);
-		m_chooser.addOption("Starting level 1 left", START_LEFT_1);
+		m_autoChooser.setDefaultOption("Get off hab zone", AUTO_OFF_1);
+		m_autoChooser.addOption("Middle Left Hatch", AUTO_MIDDLE_LEFT_HATCH);
+		m_autoChooser.addOption("Middle Right Hatch", AUTO_MIDDLE_RIGHT_HATCH);
 
 		SmartDashboard.putData("Align Chooser", m_alignChooser);
-	}
+		SmartDashboard.putData("Auto Chooser", m_autoChooser);
 
-	@Override
-	public void robotPeriodic() {
 
-		if(!(getOI().getController().getXButton().get())) swerveDriveSubsystem.setIsAuto(false);
-
-		SmartDashboard.putNumber("Adjusted Drivetrain Angle", swerveDriveSubsystem.getGyroAngle());
-		SmartDashboard.putNumber("Raw Drivetrain Angle", swerveDriveSubsystem.getRawGyroAngle());
-		SmartDashboard.putNumber("Drivetrain Rate", swerveDriveSubsystem.getGyroRate());
-		SmartDashboard.putNumber("Gyro Update Rate", swerveDriveSubsystem.getNavX().getActualUpdateRate());
-		for (int i = 0; i < 4; i++) {
-			SmartDashboard.putNumber("Drive Current Draw " + i, swerveDriveSubsystem.getSwerveModule(i).getDriveMotor().getOutputCurrent());
-			SmartDashboard.putNumber("Angle Current Draw " + i, swerveDriveSubsystem.getSwerveModule(i).getAngleMotor().getOutputCurrent());
-			//System.out.println("Module " + i  + ": " + swerveDriveSubsystem.getSwerveModule(i).getCurrentAngle());
-		}
-	//System.out.println("Module 2: " + swerveDriveSubsystem.getSwerveModule(2).getAngleMotor().getOutputCurrent());
-	m_align = new AutoAlign(FRONT_CARGO);
+		m_align = new AutoAlign(FRONT_CARGO);
 		targetPos = FRONT_CARGO;
 		switch(m_alignChooser.getSelected())
 		{
@@ -145,6 +127,26 @@ public class Robot extends TimedRobot {
 				targetPos = LOADING_STATION;
 				break;				
 		}
+
+		
+	}
+
+	@Override
+	public void robotPeriodic() {
+
+		if(!(getOI().getController().getXButton().get())) swerveDriveSubsystem.setIsAuto(false);
+
+		SmartDashboard.putNumber("Adjusted Drivetrain Angle", swerveDriveSubsystem.getGyroAngle());
+		SmartDashboard.putNumber("Raw Drivetrain Angle", swerveDriveSubsystem.getRawGyroAngle());
+		SmartDashboard.putNumber("Drivetrain Rate", swerveDriveSubsystem.getGyroRate());
+		SmartDashboard.putNumber("Gyro Update Rate", swerveDriveSubsystem.getNavX().getActualUpdateRate());
+		for (int i = 0; i < 4; i++) {
+			SmartDashboard.putNumber("Drive Current Draw " + i, swerveDriveSubsystem.getSwerveModule(i).getDriveMotor().getOutputCurrent());
+			SmartDashboard.putNumber("Angle Current Draw " + i, swerveDriveSubsystem.getSwerveModule(i).getAngleMotor().getOutputCurrent());
+			//System.out.println("Module " + i  + ": " + swerveDriveSubsystem.getSwerveModule(i).getCurrentAngle());
+		}
+	//System.out.println("Module 2: " + swerveDriveSubsystem.getSwerveModule(2).getAngleMotor().getOutputCurrent());
+	
 		
 	}
 
@@ -180,7 +182,19 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 
 		swerveDriveSubsystem.zeroGyro();
-		m_autoCommand = new AutoGetOffHab();
+
+		switch(m_autoChooser.getSelected())
+		{
+			case AUTO_OFF_1:
+				m_autoCommand = new AutoGetOffHab();
+				break;
+			case AUTO_MIDDLE_LEFT_HATCH:
+				m_autoCommand = new AutoLv1Team2LeftHatch();
+				break;
+			case AUTO_MIDDLE_RIGHT_HATCH:
+				m_autoCommand =  new AutoLv1Team2RightHatch();	
+				break;
+		}
 
 		if (m_autoCommand != null) {
 			m_autoCommand.start();
