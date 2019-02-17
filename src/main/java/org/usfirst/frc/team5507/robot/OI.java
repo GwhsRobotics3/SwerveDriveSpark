@@ -55,22 +55,20 @@ public class OI {
 
 
 		//climber controls
-		climbController.getLeftBumperButton().whenPressed(new StopArm1());
-		climbController.getRightBumperButton().whenPressed(new StopArm2());
+		climbController.getAButton().whenPressed(new StopArm1());
+		climbController.getBButton().whenPressed(new StopArm2());
 
-		// climbController.getAButton().whileHeld(new ClimberArm1());
-		// climbController.getBButton().whileHeld(new ClimberArm2());
+		climbController.getLeftBumperButton().whileHeld(new ClimberArm1());
+		climbController.getRightBumperButton().whileHeld(new ClimberArm2());
 		
-		// climbController.getAButton().whenReleased(new StopArm1());
-		// climbController.getBButton().whenReleased(new StopArm2());
+		climbController.getLeftBumperButton().whenReleased(new StopArm1());
+		climbController.getRightBumperButton().whenReleased(new StopArm2());
 		
-		climbController.getXButton().whileHeld(new ClimberMoveHand(1));
-		climbController.getXButton().whenReleased(new ClimberMoveHand(0));
-		
-		climbController.getYButton().whileHeld(new ClimberMoveHand(-1));
+		climbController.getYButton().whileHeld(new ClimberMoveHand(1));
 		climbController.getYButton().whenReleased(new ClimberMoveHand(0));
-
 		
+		climbController.getXButton().whileHeld(new ClimberMoveHand(-1));
+		climbController.getXButton().whenReleased(new ClimberMoveHand(0));
 
 
 		//mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(mRobot.getDrivetrain()));
