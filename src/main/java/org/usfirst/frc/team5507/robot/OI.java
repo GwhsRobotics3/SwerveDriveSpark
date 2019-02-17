@@ -40,6 +40,7 @@ public class OI {
 
 	public void registerControls() { 
 		//mController.getAButton().whenPressed(new ResetDrivetrainEncoderCommand(mRobot.getDrivetrain()));
+		//main controls
 		mController.getAButton().whileHeld(new CargoOut());
 		mController.getAButton().whenReleased(new CargoIn());
 
@@ -53,19 +54,25 @@ public class OI {
 		mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(Robot.swerveDriveSubsystem));
 
 
-
+		//climber controls
 		climbController.getLeftBumperButton().whenPressed(new StopArm1());
 		climbController.getRightBumperButton().whenPressed(new StopArm2());
-		climbController.getAButton().whileHeld(new ClimberArm1());
-		climbController.getBButton().whileHeld(new ClimberArm2());
+
+		// climbController.getAButton().whileHeld(new ClimberArm1());
+		// climbController.getBButton().whileHeld(new ClimberArm2());
 		
-		climbController.getAButton().whenReleased(new StopArm1());
-		climbController.getBButton().whenReleased(new StopArm2());
+		// climbController.getAButton().whenReleased(new StopArm1());
+		// climbController.getBButton().whenReleased(new StopArm2());
 		
 		climbController.getXButton().whileHeld(new ClimberMoveHand(1));
 		climbController.getXButton().whenReleased(new ClimberMoveHand(0));
+		
 		climbController.getYButton().whileHeld(new ClimberMoveHand(-1));
 		climbController.getYButton().whenReleased(new ClimberMoveHand(0));
+
+		
+
+
 		//mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(mRobot.getDrivetrain()));
 		//mController.getDPadButton(DPadButton.Direction.LEFT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), false));
 		//mController.getDPadButton(DPadButton.Direction.RIGHT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), true));
