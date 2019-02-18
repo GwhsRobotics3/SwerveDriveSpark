@@ -17,6 +17,7 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import org.usfirst.frc.team5507.robot.Robot;
+import org.usfirst.frc.team5507.robot.commands.ClimberMoveArms;
 import org.usfirst.frc.team5507.robot.commands.ClimberStop;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -40,7 +41,7 @@ public class Climber extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new ClimberStop());
+    setDefaultCommand(new ClimberMoveArms());
   }
   
   public CANPIDController getPIDControllerArm1()
@@ -57,26 +58,9 @@ public class Climber extends Subsystem {
     arm1.set(0);
     arm2.set(0);
   }
-
-  public void pullDownArm1()
-  {
-    arm1.set(.3);
-  }
-  public void pullDownArm2()
-  {
-    arm2.set(.3);
-  }
-
-  public void pullUpArm2() { //when held
-    arm2.set(-0.3);
-  }
-
-  public void pullUpArm1() { //when held
-    arm1.set(-0.3);
-  } 
-   
-  public void armOneMove(double speed) {//up or down with joystick
-    arm1.set(speed);
+  public void moveArms(double speed1, double speed2) {
+    arm1.set(speed1);
+    arm2.set(speed2);
   }
     // kP = 0.2; 
     // kI = 1e-4;
@@ -98,15 +82,6 @@ public class Climber extends Subsystem {
     NPidController1.setReference(0, ControlType.kPosition);
   }
 
-  public void armOneFortyFive()
-  {
-   NPidController1.setReference(50, ControlType.kPosition);
-  }
-
-  public void armToDegree(double angle) {
-    NPidController1.setReference((angle/360) * GEARBOX_RATIO, ControlType.kPosition);
-  }
-
   public void stopArm1() {
     arm1.stopMotor();
   }
@@ -126,6 +101,10 @@ public class Climber extends Subsystem {
   public void moveHand1(double speed)
   {
     hand.set(speed);
+  }
+
+  public void stopHand() {
+    hand.set(0);
   }
 }
 

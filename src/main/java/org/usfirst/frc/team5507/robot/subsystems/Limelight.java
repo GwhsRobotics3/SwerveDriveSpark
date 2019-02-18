@@ -29,7 +29,7 @@ public class Limelight extends Subsystem {
   public static final int CARGO_CAM = 1;
   private static int camMode = 0;
   public static NetworkTable hatchTable = NetworkTableInstance.getDefault().getTable("limelight-hatch");
-  public static NetworkTable cargoTable = NetworkTableInstance.getDefault().getTable("limelight");
+ // public static NetworkTable cargoTable = NetworkTableInstance.getDefault().getTable("limelight");
   public static NetworkTable curNetworkTable = hatchTable;
   private static int currCam = 0;
 
@@ -44,20 +44,20 @@ public class Limelight extends Subsystem {
   public static double limelightarea;
   public static double angleErr;
   public static boolean isView;
-  private double dx = 0;
   private double kP = .0657;
   private double kI = .00138; 
   private double kD = 0.001;
-  private double rI = 0.005;
+  private double rkP = 0.0035;
+  private double rkI = 0.005;
   private double xErr = 0;
   private double xIErr = 0;
+  private double dRotation = 0;
   private double rIErr = 0;
-  private boolean happy = false;
-  private double xOffset = 1;
+  private boolean happy = false; // stop aligning x once happy is true
+  private double xOffset = 0.0;
   private double rotation = 0.0;
   private double strafe = 0;
   private double forward = 0.35;
-  //private ArrayList<Double> prevX = new ArrayList<Double>(); 
   private Double currAngleErr; // starts as null
   private Double prevAngleErr; // starts as null
 
@@ -75,19 +75,19 @@ public class Limelight extends Subsystem {
     rIErr = 0;
   }
 
-  public static void setCamera(int camera) {
-    if(camera == CARGO_CAM) {
-      curNetworkTable = cargoTable;
-      currCam = 1;
-    }
-    else if (camera == HATCH_CAM) {
-      curNetworkTable = hatchTable;
-      currCam = 0;
-    }
-    else {
-      throw(new IllegalArgumentException("Camera out of range: " + camera));
-    }
-  }
+  // public static void setCamera(int camera) {
+  //   if(camera == CARGO_CAM) {
+  //     curNetworkTable = cargoTable;
+  //     currCam = 1;
+  //   }
+  //   else if (camera == HATCH_CAM) {
+  //     curNetworkTable = hatchTable;
+  //     currCam = 0;
+  //   }
+  //   else {
+  //     throw(new IllegalArgumentException("Camera out of range: " + camera));
+  //   }
+  // }
 
   public static int getCameraMode() {
     if(curNetworkTable == hatchTable) {
@@ -109,16 +109,17 @@ public class Limelight extends Subsystem {
     }
   }
 
-  public void toggleCamera(){
-    if(currCam == 0) {
-      curNetworkTable = cargoTable;
-      currCam = 1;
-    }
-    else{
-      curNetworkTable = hatchTable;
-      currCam = 0;
-    }
-  }
+  // public void toggleCamera(){
+  //   if(currCam == 0) {
+  //     curNetworkTable = cargoTable;
+  //     currCam = 1;
+  //   }
+  //   else{
+  //     curNetworkTable = hatchTable;
+  //     currCam = 0;
+  //   }
+  //   System.out.println(getCameraMode());
+  // }
 
   public void printInfo() {
     // post to smart dashboard periodically
@@ -134,7 +135,7 @@ public class Limelight extends Subsystem {
     return happy;
   }
   public double getStrafe() {
-    xErr = xOffset - limelightx;
+    xErr = 0 - limelightx;
     xIErr += (xErr)*REFRESH_RATE;
     
     if (Math.abs(limelightx) > .5) {
@@ -143,7 +144,6 @@ public class Limelight extends Subsystem {
 
     if(isHappy()) {
       strafe = 0;
-      
     }
     System.out.println("STRAFE: " + strafe);
     return strafe;
@@ -162,18 +162,18 @@ public class Limelight extends Subsystem {
       }
     }
     if(Math.abs(angleErr) > 1.5 && Math.abs(limelightx) < 15) {
-      rotation = (.0035 * angleErr) + (dx * kD) + rIErr*rI;
+      rotation = (rkP * angleErr) + (dRotation * kD) + rIErr*rkI;
       System.out.println(angleErr);
-      forward = 0.35;
     }
     System.out.println("ROTATION: " + rotation);
     return rotation;
   }
 
   public boolean isHappy() {
-    if(limelightarea > 20) {
+    // check if we are close enough and aligned to the target
+    if(limelightarea > 17) {
       forward = 0;  
-      if(Math.abs(angleErr) < 1.5 && Math.abs(limelightx) < 1.5) {
+      if(Math.abs(angleErr) < 1.5 && Math.abs(limelightx) < 2.0) {
         happy = true;
       }
     }
@@ -185,7 +185,7 @@ public class Limelight extends Subsystem {
     return angleErr;
   }
 
-  public double setDX(double targetAngle)
+  public double setdRotation(double targetAngle)
   {
     Double var = currAngleErr;
     currAngleErr = Robot.m_Limelight.getAngleErr(targetAngle);
@@ -201,22 +201,30 @@ public class Limelight extends Subsystem {
   {
     angleErr = this.getAngleErr(targetAngle);
     Robot.swerveDriveSubsystem.setIsAuto(true); 
+
     limelightx = tx.getDouble(0.3);
-    limelightx += xOffset;
+    limelightx += xOffset; // add target x offset for alignment errors
+
     limelighty = ty.getDouble(0.3);
     limelightarea = ta.getDouble(0.3);
     isView = tv.getBoolean(true);
-    dx = Robot.m_Limelight.setDX(targetAngle);
-    forward = 0.35;
-    
-   
-    
 
+    dRotation = Robot.m_Limelight.setdRotation(targetAngle);
+
+    forward = 0.35;
+    strafe = -getStrafe();
+    rotation = getRotation();
+    if(happy)
+    {
+      forward = 0.35;
+    }
+
+    // don't rotate if the target is not in view
     if(isView) {
-      Robot.swerveDriveSubsystem.holonomicDrive(forward, -getStrafe(), getRotation());
+      Robot.swerveDriveSubsystem.holonomicDrive(forward, strafe, rotation);
     }
     else {
-      Robot.swerveDriveSubsystem.holonomicDrive(forward, -getStrafe(), 0);
+      Robot.swerveDriveSubsystem.holonomicDrive(forward, -strafe, 0);
     } 
   }
 }

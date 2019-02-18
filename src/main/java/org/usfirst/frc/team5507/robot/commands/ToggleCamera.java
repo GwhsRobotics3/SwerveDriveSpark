@@ -12,25 +12,30 @@ import org.usfirst.frc.team5507.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ToggleCamera extends Command {
+  boolean toggled;
+
   public ToggleCamera() {
     requires(Robot.m_Limelight);
+    toggled = false;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_Limelight.toggleCamera();
+    //Robot.m_Limelight.toggleCamera();
+   // toggled = true;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return toggled;
   }
 
   // Called once after isFinished returns true

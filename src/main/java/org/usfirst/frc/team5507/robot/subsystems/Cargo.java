@@ -30,11 +30,11 @@ public class Cargo extends Subsystem {
   }
 
   public void pushCargo() {
-    solenoid1.set(DoubleSolenoid.Value.kReverse);
+    solenoid1.set(DoubleSolenoid.Value.kForward);
   }
 
   public void pullCargo() {
-    solenoid1.set(DoubleSolenoid.Value.kForward);
+    solenoid1.set(DoubleSolenoid.Value.kReverse);
   }
 
   public boolean isRetracted() {

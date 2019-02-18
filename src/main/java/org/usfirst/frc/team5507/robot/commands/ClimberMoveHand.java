@@ -30,17 +30,20 @@ private double speed;
   @Override
   protected void execute() {
     Robot.m_climber.moveHand1(speed);
+    System.out.println("hand moving");
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return speed == 0;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+
+
   }
 
   // Called when another command which requires one or more of the same

@@ -15,6 +15,7 @@ import org.usfirst.frc.team5507.robot.commands.ResetHappy;
 import org.usfirst.frc.team5507.robot.commands.StopArm1;
 import org.usfirst.frc.team5507.robot.commands.StopArm2;
 import org.usfirst.frc.team5507.robot.commands.SwitchLedModes;
+import org.usfirst.frc.team5507.robot.commands.ToggleCamera;
 import org.usfirst.frc.team5507.robot.commands.ToggleFieldOrientedCommand;
 import org.usfirst.frc.team5507.robot.commands.ZeroNavX;
 import org.usfirst.frc.team5507.robot.input.DPadButton;
@@ -53,22 +54,18 @@ public class OI {
 		mController.getYButton().whenPressed(new ZeroNavX());
 		mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(Robot.swerveDriveSubsystem));
 
+		mController.getLeftBumperButton().whenPressed(new ToggleCamera());
+
 
 		//climber controls
-		climbController.getAButton().whenPressed(new StopArm1());
-		climbController.getBButton().whenPressed(new StopArm2());
-
-		climbController.getLeftBumperButton().whileHeld(new ClimberArm1());
-		climbController.getRightBumperButton().whileHeld(new ClimberArm2());
-		
-		climbController.getLeftBumperButton().whenReleased(new StopArm1());
-		climbController.getRightBumperButton().whenReleased(new StopArm2());
+		climbController.getLeftBumperButton().whenPressed(new StopArm1());
+		climbController.getRightBumperButton().whenPressed(new StopArm2());
 		
 		climbController.getYButton().whileHeld(new ClimberMoveHand(1));
 		climbController.getYButton().whenReleased(new ClimberMoveHand(0));
 		
-		climbController.getXButton().whileHeld(new ClimberMoveHand(-1));
-		climbController.getXButton().whenReleased(new ClimberMoveHand(0));
+		//climbController.getXButton().whileHeld(new ClimberMoveHand(-1));
+		//climbController.getXButton().whenReleased(new ClimberMoveHand(0));
 
 
 		//mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(mRobot.getDrivetrain()));

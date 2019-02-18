@@ -11,41 +11,41 @@ import org.usfirst.frc.team5507.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class AutoAlign extends Command {
+public class ClimberMoveArms extends Command {
 
-  private double targetPos;
-
-  public AutoAlign(double targetPos) {
+  public ClimberMoveArms() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.swerveDriveSubsystem);  
-    requires(Robot.m_Limelight);
-    this.targetPos = targetPos;
+    requires(Robot.m_climber);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-     }
+  }
+
+  private double deadband(double input) {
+		if (Math.abs(input) < 0.15) return 0;
+		return input;
+	}
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_Limelight.align(targetPos);
-    
+    double speed1 = deadband(Robot.getOI().getClimberController().getLeftYValue());
+    double speed2 = deadband(Robot.getOI().getClimberController().getRightYValue());
+    Robot.m_climber.moveArms(speed1, speed2);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-  
-    //Robot.swerveDriveSubsystem.stopDriveMotors();
   }
 
   // Called when another command which requires one or more of the same
