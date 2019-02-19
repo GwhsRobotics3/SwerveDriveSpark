@@ -14,7 +14,7 @@ public class AutoLv1Team2LeftHatch extends CommandGroup {
   public AutoLv1Team2LeftHatch() {
     addSequential(new DriveForwardDistance(11, 0.5));
     addSequential(new DriveSidewaysDistance(-2, .5)); // for testing
-    addSequential(new AutoAlign(0));
+    //addSequential(new AutoAlign(0));
     addSequential(new HatchOut());
     addSequential(new HatchIn());
   }

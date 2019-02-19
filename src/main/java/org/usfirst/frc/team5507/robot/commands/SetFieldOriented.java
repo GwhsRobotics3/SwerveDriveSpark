@@ -7,15 +7,21 @@
 
 package org.usfirst.frc.team5507.robot.commands;
 
-import org.usfirst.frc.team5507.robot.Robot;
+import org.usfirst.frc.team5507.robot.subsystems.HolonomicDrivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ClimberArm1 extends Command {
-  public ClimberArm1() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.m_climber);
+public class SetFieldOriented extends Command {
+  private final boolean isFieldOriented;
+  private final HolonomicDrivetrain drivetrain;
+  public SetFieldOriented(HolonomicDrivetrain drivetrain) {
+    this(drivetrain,true);
+  }
+
+  public SetFieldOriented(HolonomicDrivetrain drivetrain, boolean isFieldOriented)
+  {
+    this.drivetrain = drivetrain;
+    this.isFieldOriented = isFieldOriented;
   }
 
   // Called just before this Command runs the first time
@@ -26,33 +32,23 @@ public class ClimberArm1 extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-   
-    if(Math.abs(Robot.getOI().getClimberController().getLeftYValue()) > .15)
-    {
-     Robot.m_climber.moveArm1(Robot.getOI().getClimberController().getLeftYValue());
-    }
-    else 
-    {
-      Robot.m_climber.stopArm1();
-    }
+    drivetrain.setFieldOriented(isFieldOriented);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_climber.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

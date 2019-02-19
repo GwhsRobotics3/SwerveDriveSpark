@@ -30,7 +30,6 @@ private double speed;
   @Override
   protected void execute() {
     Robot.m_climber.moveHand1(speed);
-    System.out.println("hand moving");
   }
 
   // Make this return true when this Command no longer needs to run execute()

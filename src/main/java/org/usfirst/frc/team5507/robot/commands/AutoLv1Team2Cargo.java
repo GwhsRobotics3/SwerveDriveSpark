@@ -15,7 +15,7 @@ public class AutoLv1Team2Cargo extends CommandGroup {
    */
   public AutoLv1Team2Cargo() {
     addSequential(new DriveForwardDistance(6, 0.5));
-    addSequential(new AutoAlign(0));
+    ////addSequential(new AutoAlign(0));
     addSequential(new CargoOut());
     addSequential(new CargoIn());
   }

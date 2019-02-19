@@ -15,7 +15,7 @@ public class AutoLv1Team3ComplexHatch extends CommandGroup {
     //going to bay 3 
     addSequential(new DriveForwardDistance(12, 0.5));  
     addSequential(new RotateAngle(-90));
-    addSequential(new AutoAlign(-90));
+    //addSequential(new AutoAlign(-90));
     addSequential(new HatchOut());
     addSequential(new HatchIn());
 
@@ -23,13 +23,13 @@ public class AutoLv1Team3ComplexHatch extends CommandGroup {
     addSequential(new DriveForwardDistance(-4.3, 0.5));
     addSequential(new RotateAngle(-90));
     addSequential(new DriveForwardDistance(18,0.5));
-    addSequential(new AutoAlign(-180)); 
+    //addSequential(new AutoAlign(-180)); 
 
     //going to bay 2 
     addSequential(new DriveForwardDistance(-20, .5)); // might hit the rocket on the way back 
     addSequential(new RotateAngle(90));
     addSequential(new DriveForwardDistance(5.1,0.5));
-    addSequential(new AutoAlign(90));
+    //addSequential(new AutoAlign(90));
     addSequential(new HatchOut());
     addSequential(new HatchIn());
 

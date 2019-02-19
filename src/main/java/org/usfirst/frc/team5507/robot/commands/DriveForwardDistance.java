@@ -39,7 +39,6 @@ public class DriveForwardDistance extends Command {
   @Override
   protected void execute() {
     Robot.swerveDriveSubsystem.driveForwardDistance(d1, startAngle, 0.5);
-    System.out.println("Driving " + d1 + " feet");
   }
 
   // Make this return true when this Command no longer needs to run execute()

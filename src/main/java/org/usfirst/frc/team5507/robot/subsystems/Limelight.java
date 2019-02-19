@@ -44,7 +44,7 @@ public class Limelight extends Subsystem {
   public static double limelightarea;
   public static double angleErr;
   public static boolean isView;
-  private double kP = .0657;
+  private double kP = .06;
   private double kI = .00138; 
   private double kD = 0.001;
   private double rkP = 0.0035;
@@ -54,7 +54,7 @@ public class Limelight extends Subsystem {
   private double dRotation = 0;
   private double rIErr = 0;
   private boolean happy = false; // stop aligning x once happy is true
-  private double xOffset = 0.0;
+  private double xOffset = -1.0;
   private double rotation = 0.0;
   private double strafe = 0;
   private double forward = 0.35;
@@ -118,7 +118,6 @@ public class Limelight extends Subsystem {
   //     curNetworkTable = hatchTable;
   //     currCam = 0;
   //   }
-  //   System.out.println(getCameraMode());
   // }
 
   public void printInfo() {
@@ -140,12 +139,13 @@ public class Limelight extends Subsystem {
     
     if (Math.abs(limelightx) > .5) {
       strafe = kP*xErr + kI*xIErr;
+    } else {
+      strafe = 0;
     }
 
     if(isHappy()) {
       strafe = 0;
     }
-    System.out.println("STRAFE: " + strafe);
     return strafe;
   }
 
@@ -163,17 +163,16 @@ public class Limelight extends Subsystem {
     }
     if(Math.abs(angleErr) > 1.5 && Math.abs(limelightx) < 15) {
       rotation = (rkP * angleErr) + (dRotation * kD) + rIErr*rkI;
-      System.out.println(angleErr);
     }
-    System.out.println("ROTATION: " + rotation);
+    
     return rotation;
   }
 
   public boolean isHappy() {
     // check if we are close enough and aligned to the target
-    if(limelightarea > 17) {
+    if(limelightarea > 20) {
       forward = 0;  
-      if(Math.abs(angleErr) < 1.5 && Math.abs(limelightx) < 2.0) {
+      if(Math.abs(angleErr) < 2.5 && Math.abs(limelightx) < 2) {
         happy = true;
       }
     }
@@ -181,7 +180,24 @@ public class Limelight extends Subsystem {
   }
 
   public double getAngleErr(double targetAngle) {
-    double angleErr = targetAngle - (Robot.swerveDriveSubsystem.getGyroAngle() % 360);
+    double angleErr;
+    double moddedGyro = (Robot.swerveDriveSubsystem.getGyroAngle() % 360);
+    if(moddedGyro < 0) {
+      if(Math.abs((targetAngle - moddedGyro - 360)) < Math.abs((targetAngle - moddedGyro))) {
+        angleErr = (targetAngle - moddedGyro - 360);
+      }
+      else {
+        angleErr = targetAngle - moddedGyro;
+      }
+    }
+    else {
+      if(Math.abs((targetAngle - moddedGyro + 360)) < Math.abs((targetAngle - moddedGyro))) {
+        angleErr = (targetAngle - moddedGyro + 360);
+      }
+      else {
+        angleErr = targetAngle - moddedGyro;
+      }
+    }
     return angleErr;
   }
 
@@ -199,6 +215,7 @@ public class Limelight extends Subsystem {
 
   public void align(double targetAngle) //check the values on limelight
   {
+    
     angleErr = this.getAngleErr(targetAngle);
     Robot.swerveDriveSubsystem.setIsAuto(true); 
 

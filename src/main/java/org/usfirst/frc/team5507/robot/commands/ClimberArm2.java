@@ -26,7 +26,6 @@ public class ClimberArm2 extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println("executing climber arm 2");
     if(Math.abs(Robot.getOI().getClimberController().getRightYValue()) > .15)
     {
      Robot.m_climber.moveArm2(Robot.getOI().getClimberController().getRightYValue());

@@ -67,19 +67,17 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 
 	@Override
 	public void holonomicDrive(double forward, double strafe, double rotation) {
-		// System.out.println("Forward: " + forward);
-		// System.out.println("Strafe: " + strafe);
-		// System.out.println("Rotation: " + rotation);
 		forward *= getSpeedMultiplier();
 		strafe *= getSpeedMultiplier();
 		if (isFieldOriented()) {
+			
 			double angleRad = Math.toRadians(getGyroAngle());
 			double temp = forward * Math.cos(angleRad) +
 					strafe * Math.sin(angleRad);
 			strafe = -forward * Math.sin(angleRad) + strafe * Math.cos(angleRad);
 			forward = temp;
 		}
-
+		
 		double a = strafe - rotation * (WHEELBASE / TRACKWIDTH);
 		double b = strafe + rotation * (WHEELBASE / TRACKWIDTH);
 		double c = forward - rotation * (TRACKWIDTH / WHEELBASE);

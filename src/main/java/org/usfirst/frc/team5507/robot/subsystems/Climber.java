@@ -29,7 +29,7 @@ public class Climber extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private static CANSparkMax arm1 = new CANSparkMax(17, MotorType.kBrushless);
-  private static CANSparkMax arm2 = new CANSparkMax(1, MotorType.kBrushless);
+  private static CANSparkMax arm2 = new CANSparkMax(19, MotorType.kBrushless);
   private static CANSparkMax hand = new CANSparkMax(15, MotorType.kBrushless);
   private static CANEncoder NEncoder1 = new CANEncoder(arm1);
   private static CANEncoder NEncoder2 = new CANEncoder(arm2);

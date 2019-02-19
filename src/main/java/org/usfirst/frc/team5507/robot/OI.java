@@ -10,8 +10,10 @@ import org.usfirst.frc.team5507.robot.commands.ClimberMoveHand;
 import org.usfirst.frc.team5507.robot.commands.ClimberStop;
 import org.usfirst.frc.team5507.robot.commands.HatchIn;
 import org.usfirst.frc.team5507.robot.commands.HatchOut;
+import org.usfirst.frc.team5507.robot.commands.HatchPushBack;
 import org.usfirst.frc.team5507.robot.commands.ResetDrivetrainEncoderCommand;
 import org.usfirst.frc.team5507.robot.commands.ResetHappy;
+import org.usfirst.frc.team5507.robot.commands.SetFieldOriented;
 import org.usfirst.frc.team5507.robot.commands.StopArm1;
 import org.usfirst.frc.team5507.robot.commands.StopArm2;
 import org.usfirst.frc.team5507.robot.commands.SwitchLedModes;
@@ -47,22 +49,28 @@ public class OI {
 
 		mController.getBButton().whileHeld(new HatchOut());
 		mController.getBButton().whenReleased(new HatchIn());
+		mController.getLeftBumperButton().whileHeld(new HatchPushBack());
 
-		mController.getXButton().whileHeld(new AutoAlign(Robot.targetPos));
+		mController.getXButton().whileHeld(new AutoAlign(mRobot.getDrivetrain()));
 		mController.getXButton().whenReleased(new ResetHappy());
 		
 		mController.getYButton().whenPressed(new ZeroNavX());
-		mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(Robot.swerveDriveSubsystem));
+		mController.getRightBumperButton().whenPressed(new SwitchLedModes());
+
+		// mController.getStartButton().whenPressed(new SetFieldOriented(mRobot.getDrivetrain(),true));
+		// mController.getBackButton().whenPressed(new SetFieldOriented(mRobot.getDrivetrain(), false));
 
 		mController.getLeftBumperButton().whenPressed(new ToggleCamera());
 
 
 		//climber controls
-		climbController.getLeftBumperButton().whenPressed(new StopArm1());
-		climbController.getRightBumperButton().whenPressed(new StopArm2());
+	//	climbController.getLeftBumperButton().whenPressed(new StopArm1());
+	//	climbController.getRightBumperButton().whenPressed(new StopArm2());
 		
-		climbController.getYButton().whileHeld(new ClimberMoveHand(1));
-		climbController.getYButton().whenReleased(new ClimberMoveHand(0));
+		climbController.getRightBumperButton().whileHeld(new ClimberMoveHand(1));
+		climbController.getRightBumperButton().whenReleased(new ClimberMoveHand(0));
+
+		
 		
 		//climbController.getXButton().whileHeld(new ClimberMoveHand(-1));
 		//climbController.getXButton().whenReleased(new ClimberMoveHand(0));

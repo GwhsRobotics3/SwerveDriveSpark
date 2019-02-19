@@ -9,9 +9,9 @@ package org.usfirst.frc.team5507.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutoGetOffHab extends CommandGroup {
+public class AutoGetOffHab1 extends CommandGroup {
   
-  public AutoGetOffHab() {
+  public AutoGetOffHab1() {
     addSequential(new DriveForwardDistance(5, 0.5));
   }
 }

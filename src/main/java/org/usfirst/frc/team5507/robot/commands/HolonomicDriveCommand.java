@@ -16,21 +16,24 @@ public class HolonomicDriveCommand extends Command {
 	}
 
 	private double deadband(double input) {
-		if (mDrivetrain.getIsAuto() && Math.abs(input) < 0.1) return input;
+		if ((!mDrivetrain.isFieldOriented())) {
+			if(Math.abs(input) < 0.1) {
+				return 0;
+			}
+			else {
+				return input;
+			}
+		}
 		if (Math.abs(input) < 0.25) return 0;
 		return input;
 	}
 
 	@Override
 	protected void execute() {
-
+		
 		if(mDrivetrain.getIsAuto())
 		{
 			mDrivetrain.setFieldOriented(false);
-		}
-		else
-		{
-			mDrivetrain.setFieldOriented(true);
 		}
 
 		double forward = Robot.getOI().getController().getLeftYValue();

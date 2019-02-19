@@ -8,19 +8,19 @@
 package org.usfirst.frc.team5507.robot.commands;
 
 import org.usfirst.frc.team5507.robot.Robot;
+import org.usfirst.frc.team5507.robot.subsystems.HolonomicDrivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AutoAlign extends Command {
-
-  private double targetPos;
-
-  public AutoAlign(double targetPos) {
+  private final HolonomicDrivetrain drivetrain;
+  
+  public AutoAlign(HolonomicDrivetrain drivetrain) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.swerveDriveSubsystem);  
     requires(Robot.m_Limelight);
-    this.targetPos = targetPos;
+    this.drivetrain = drivetrain;
   }
 
   // Called just before this Command runs the first time
@@ -31,8 +31,9 @@ public class AutoAlign extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_Limelight.align(targetPos);
-    
+    drivetrain.setIsAuto(true);
+    drivetrain.setFieldOriented(false);
+    Robot.m_Limelight.align(Robot.targetPos);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -44,7 +45,8 @@ public class AutoAlign extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-  
+    drivetrain.setIsAuto(false);
+    drivetrain.setFieldOriented(true);
     //Robot.swerveDriveSubsystem.stopDriveMotors();
   }
 
