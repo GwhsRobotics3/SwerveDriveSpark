@@ -4,6 +4,8 @@ import org.usfirst.frc.team5507.robot.commands.AdjustFieldOrientedAngleCommand;
 import org.usfirst.frc.team5507.robot.commands.AutoAlign;
 import org.usfirst.frc.team5507.robot.commands.CargoIn;
 import org.usfirst.frc.team5507.robot.commands.CargoOut;
+import org.usfirst.frc.team5507.robot.commands.ClimberArm1;
+import org.usfirst.frc.team5507.robot.commands.ClimberArm2;
 import org.usfirst.frc.team5507.robot.commands.ClimberMoveHand;
 import org.usfirst.frc.team5507.robot.commands.ClimberStop;
 import org.usfirst.frc.team5507.robot.commands.HatchIn;
@@ -25,6 +27,10 @@ import org.usfirst.frc.team5507.robot.subsystems.HolonomicDrivetrain;
 
 import edu.wpi.first.wpilibj.XboxController;
 
+/**
+ * This class is the glue that binds the controls on the physical operator
+ * interface to the commands and command groups that allow control of the robot.
+ */
 public class OI {
 	private IGamepad mController = new XboxGamepad(0);
 	private IGamepad climbController = new XboxGamepad(1);
@@ -36,6 +42,7 @@ public class OI {
 	}
 
 	public void registerControls() { 
+		//mController.getAButton().whenPressed(new ResetDrivetrainEncoderCommand(mRobot.getDrivetrain()));
 		//main controls
 		mController.getAButton().whileHeld(new CargoOut());
 		mController.getAButton().whenReleased(new CargoIn());
