@@ -16,6 +16,12 @@ public class HolonomicDriveCommand extends Command {
 	}
 
 	private double deadband(double input) {
+		if(Robot.autoMode)
+		{
+		if (Math.abs(input) < 0.25) return 0;
+		return input;
+		}
+		else{
 		if ((!mDrivetrain.isFieldOriented())) {
 			if(Math.abs(input) < 0.1) {
 				return 0;
@@ -26,6 +32,7 @@ public class HolonomicDriveCommand extends Command {
 		}
 		if (Math.abs(input) < 0.25) return 0;
 		return input;
+		}
 	}
 
 	@Override
@@ -36,9 +43,9 @@ public class HolonomicDriveCommand extends Command {
 			mDrivetrain.setFieldOriented(false);
 		}
 
-		double forward = Robot.getOI().getController().getLeftYValue();
+		double forward = -Robot.getOI().getController().getLeftYValue(); //real: positive
 		double rotation = Robot.getOI().getController().getRightTriggerValue() - Robot.getOI().getController().getLeftTriggerValue();
-		double strafe =  Robot.getOI().getController().getLeftXValue(); 
+		double strafe =  -Robot.getOI().getController().getLeftXValue(); //real: negative
 		///double arm1 = Robot.getOI().getClimberController().getLeftYValue();
 		//double arm2 = Robot.getOI().getClimberController().getRightYValue();
 

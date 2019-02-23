@@ -50,6 +50,7 @@ public class OI {
 		mController.getBButton().whileHeld(new HatchOut());
 		mController.getBButton().whenReleased(new HatchIn());
 		mController.getLeftBumperButton().whileHeld(new HatchPushBack());
+		mController.getLeftBumperButton().whenReleased(new SetFieldOriented(mRobot.getDrivetrain(), true));
 
 		mController.getXButton().whileHeld(new AutoAlign(mRobot.getDrivetrain()));
 		mController.getXButton().whenReleased(new ResetHappy());
@@ -57,8 +58,8 @@ public class OI {
 		mController.getYButton().whenPressed(new ZeroNavX());
 		mController.getRightBumperButton().whenPressed(new SwitchLedModes());
 
-		// mController.getStartButton().whenPressed(new SetFieldOriented(mRobot.getDrivetrain(),true));
-		// mController.getBackButton().whenPressed(new SetFieldOriented(mRobot.getDrivetrain(), false));
+		mController.getStartButton().whenPressed(new SetFieldOriented(mRobot.getDrivetrain(),true));
+		mController.getBackButton().whenPressed(new SetFieldOriented(mRobot.getDrivetrain(), false));
 
 		mController.getLeftBumperButton().whenPressed(new ToggleCamera());
 
@@ -70,16 +71,10 @@ public class OI {
 		climbController.getRightBumperButton().whileHeld(new ClimberMoveHand(1));
 		climbController.getRightBumperButton().whenReleased(new ClimberMoveHand(0));
 
-		
-		
 		//climbController.getXButton().whileHeld(new ClimberMoveHand(-1));
 		//climbController.getXButton().whenReleased(new ClimberMoveHand(0));
 
-
 		//mController.getStartButton().whenPressed(new ToggleFieldOrientedCommand(mRobot.getDrivetrain()));
-		//mController.getDPadButton(DPadButton.Direction.LEFT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), false));
-		//mController.getDPadButton(DPadButton.Direction.RIGHT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), true));
-		//mController.getXButton().whenPressed(new ClimberLatch());
 	}
 
 	public IGamepad getController() {

@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
 	public static AutoAlign m_align;
 	private static OI mOI;
 	public static double targetPos;
+	public static boolean autoMode;
 	
 	public static OI getOI() {
 		return mOI;
@@ -63,9 +64,9 @@ public class Robot extends TimedRobot {
 
 	//Angle Chooser System
 	private static final int FRONT_CARGO = 0;
-	private static final int LEFT_CARGO = -90;
+	private static final int LEFT_CARGO = 90;
 	private static final int LEFT_ROCKET = -61; // CHANGE
-	private static final int RIGHT_CARGO = 90;
+	private static final int RIGHT_CARGO = -90;
 	private static final int RIGHT_ROCKET = 61;
 	private static final int LOADING_STATION = 180;
 
@@ -86,6 +87,9 @@ public class Robot extends TimedRobot {
 		mOI = new OI(this);
 		mOI.registerControls();
 		swerveDriveSubsystem.zeroGyro();
+		autoMode = false;
+
+		compressor.setClosedLoopControl(true);
 
 		m_alignChooser.setDefaultOption("Front Cargo Bay (Zero) ", FRONT_CARGO);
 		m_alignChooser.addOption("Left Cargo Bay ", LEFT_CARGO );
@@ -196,6 +200,8 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 
 		swerveDriveSubsystem.zeroGyro();
+		swerveDriveSubsystem.setFieldOriented(false);
+		autoMode = true;
 
 		switch(m_autoChooser.getSelected())
 		{
@@ -211,7 +217,7 @@ public class Robot extends TimedRobot {
 		}
 
 		if (m_autoCommand != null) {
-			m_autoCommand.start();
+			//m_autoCommand.start();
 		}
 	}
 
@@ -225,7 +231,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		compressor.setClosedLoopControl(true);
+		swerveDriveSubsystem.setFieldOriented(true);
+		autoMode = false;
+		
 
 	}
 
@@ -249,7 +257,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		swerveDriveSubsystem.driveForwardDistance(6, swerveDriveSubsystem.getNavX().getYaw(), 0.5);
+		swerveDriveSubsystem.holonomicDrive(.3,0,0);
 	}
 
 	public SwerveDriveSubsystem getDrivetrain() {
