@@ -1,7 +1,7 @@
 jdk:
   -openjdk11
 language: java
-before_script: 
+before_install: 
   - chmod +x gradlew
 script:
   - './gradlew clean assemble --stacktrace'
