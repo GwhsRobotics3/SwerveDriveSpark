@@ -1,3 +1,6 @@
 jdk:
   -openjdk11
 language: java
+script:
+  - 'sh ./gradlew clean assemble --stacktrace'
+ 
