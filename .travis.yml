@@ -1,0 +1,10 @@
+jdk:
+  -openjdk11
+language: java
+before_install: 
+  - chmod +x gradlew
+script:
+  - './gradlew clean assemble --stacktrace'
+  - './gradlew sonarqube -Dsonar.projectKey=GwhsRobotics3_SwerveDriveSpark -Dsonar.organization=gwhsrobotics3-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN'
+
+ 
