@@ -10,9 +10,7 @@ package org.usfirst.frc.team5507.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutoLv1Team2Cargo extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
+
   public AutoLv1Team2Cargo() {
     addSequential(new DriveForwardDistance(6, 0.5));
     ////addSequential(new AutoAlign(0));

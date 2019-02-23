@@ -1,14 +1,6 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc.team5507.robot.commands;
 
 import org.usfirst.frc.team5507.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveSidewaysDistance extends Command {
@@ -20,41 +12,33 @@ public class DriveSidewaysDistance extends Command {
   public static final double DISTANCE = WHEEL_CIRCUMFERENCE / TOTAL_SENSOR_POS;
 
   public DriveSidewaysDistance(double d, double speed) {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.swerveDriveSubsystem);
     d1 = DISTANCE * d * 12;
     this.speed = speed;
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     startAngle = Robot.swerveDriveSubsystem.getNavX().getYaw();
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     Robot.swerveDriveSubsystem.driveForwardDistance(d1, startAngle, speed);
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(Math.abs(Robot.swerveDriveSubsystem.calculateErrPos(d1)) < DISTANCE){
+    if(Math.abs(Robot.swerveDriveSubsystem.calculateErrPos(d1)) < DISTANCE)
       return true;
-    }
-    return false;
+      
+      return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
   }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  
   @Override
   protected void interrupted() {
   }

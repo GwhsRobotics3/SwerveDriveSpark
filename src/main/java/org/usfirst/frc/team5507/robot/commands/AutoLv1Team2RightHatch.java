@@ -10,9 +10,7 @@ package org.usfirst.frc.team5507.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutoLv1Team2RightHatch extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
+
   public AutoLv1Team2RightHatch() {
     addSequential(new DriveForwardDistance(11, .5)); // for testing
     addSequential(new DriveSidewaysDistance(2, .5)); // for testing
