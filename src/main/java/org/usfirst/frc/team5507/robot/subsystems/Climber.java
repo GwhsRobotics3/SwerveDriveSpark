@@ -22,12 +22,7 @@ import org.usfirst.frc.team5507.robot.commands.ClimberStop;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- * Add your docs here.
- */
 public class Climber extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
   private static CANSparkMax arm1 = new CANSparkMax(17, MotorType.kBrushless);
   private static CANSparkMax arm2 = new CANSparkMax(19, MotorType.kBrushless);
   private static CANSparkMax hand = new CANSparkMax(15, MotorType.kBrushless);
@@ -39,8 +34,6 @@ public class Climber extends Subsystem {
   private final double GEARBOX_RATIO = 400; 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new ClimberMoveArms());
   }
   

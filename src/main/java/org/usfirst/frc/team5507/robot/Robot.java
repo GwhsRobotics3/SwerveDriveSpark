@@ -1,30 +1,24 @@
 
 package org.usfirst.frc.team5507.robot;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import org.usfirst.frc.team5507.robot.commands.AutoAlign;
 import org.usfirst.frc.team5507.robot.commands.AutoGetOffHab1;
 import org.usfirst.frc.team5507.robot.commands.AutoLv1Team2LeftHatch;
 import org.usfirst.frc.team5507.robot.commands.AutoLv1Team2RightHatch;
-import org.usfirst.frc.team5507.robot.commands.ZeroNavX;
 import org.usfirst.frc.team5507.robot.subsystems.Cargo;
 import org.usfirst.frc.team5507.robot.subsystems.Climber;
 import org.usfirst.frc.team5507.robot.subsystems.HatchDelivery;
 import org.usfirst.frc.team5507.robot.subsystems.Limelight;
-//import org.usfirst.frc.team5507.robot.subsystems.SwerveDriveModule;
 import org.usfirst.frc.team5507.robot.subsystems.SwerveDriveSubsystem;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.SPI;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -128,9 +122,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-
-		//if(!(getOI().getController().getXButton().get())) swerveDriveSubsystem.setIsAuto(false);
-
 		SmartDashboard.putNumber("Adjusted Drivetrain Angle", swerveDriveSubsystem.getGyroAngle());
 		SmartDashboard.putNumber("Raw Drivetrain Angle", swerveDriveSubsystem.getRawGyroAngle());
 		SmartDashboard.putNumber("Drivetrain Rate", swerveDriveSubsystem.getGyroRate());
@@ -235,8 +226,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		//m_climber.armOneMove(mOI.getController().getLeftYValue());
-		
 	}
 
 	@Override
