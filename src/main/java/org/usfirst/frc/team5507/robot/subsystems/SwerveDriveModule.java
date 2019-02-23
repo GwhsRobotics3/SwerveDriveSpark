@@ -101,10 +101,6 @@ public class SwerveDriveModule extends Subsystem {
     }
 
     public void setTargetAngle(double targetAngle) {
-//    	if(angleMotorJam) {
-//    		mAngleMotor.set(ControlMode.Disabled, 0);
-//    		return;
-//    	}
     	
         mLastTargetAngle = targetAngle;
 
@@ -164,11 +160,6 @@ public class SwerveDriveModule extends Subsystem {
     public void setTargetSpeed(double speed) {
         mDriveMotor.set(speed);
     }
-
-    // public void zeroDistance() {
-    //     //mDriveMotor.setSelectedSensorPosition(0, 0, 0);
-    //     mDriveEncoder.set
-    // }
 
     public void resetEncoder() {
         zeroPos = mDriveEncoder.getPosition(); 
