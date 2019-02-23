@@ -12,20 +12,13 @@ import org.usfirst.frc.team5507.robot.commands.HatchIn;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- * Add your docs here.
- */
 public class HatchDelivery extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
   DoubleSolenoid solenoid1 = new DoubleSolenoid(4, 5);
   DoubleSolenoid solenoid2 = new DoubleSolenoid(2, 3);
   private boolean isRetracted = true;
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new HatchIn());
   }
 
