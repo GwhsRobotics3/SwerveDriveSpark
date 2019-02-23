@@ -14,12 +14,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ClimberMoveArms extends Command {
 
   public ClimberMoveArms() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.m_climber);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
   }
@@ -27,9 +24,8 @@ public class ClimberMoveArms extends Command {
   private double deadband(double input) {
 		if (Math.abs(input) < 0.15) return 0;
 		return input;
-	}
-
-  // Called repeatedly when this Command is scheduled to run
+  }
+  
   @Override
   protected void execute() {
     double speed1 = deadband(Robot.getOI().getClimberController().getLeftYValue());
@@ -37,19 +33,15 @@ public class ClimberMoveArms extends Command {
     Robot.m_climber.moveArms(speed1, speed2);
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
   }
