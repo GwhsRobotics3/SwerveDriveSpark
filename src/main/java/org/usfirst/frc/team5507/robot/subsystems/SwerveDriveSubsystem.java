@@ -22,10 +22,10 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 	 * 3 is Back Right
 	 */
 	private SwerveDriveModule[] mSwerveModules = new SwerveDriveModule[] {                            
-		new SwerveDriveModule(0, new TalonSRX(12), new CANSparkMax(4, MotorType.kBrushless), 387), //real:390
-		new SwerveDriveModule(1, new TalonSRX(13), new CANSparkMax(5, MotorType.kBrushless), 239), //real:293
-		new SwerveDriveModule(2, new TalonSRX(10), new CANSparkMax(3, MotorType.kBrushless), 236), //real:298
-		new SwerveDriveModule(3, new TalonSRX(11), new CANSparkMax(2, MotorType.kBrushless), 310) //real: 355
+		new SwerveDriveModule(0, new TalonSRX(12), new CANSparkMax(4, MotorType.kBrushless), 207), //real:390
+		new SwerveDriveModule(1, new TalonSRX(13), new CANSparkMax(5, MotorType.kBrushless), 59), //real:293
+		new SwerveDriveModule(2, new TalonSRX(10), new CANSparkMax(3, MotorType.kBrushless), 56), //real:298
+		new SwerveDriveModule(3, new TalonSRX(11), new CANSparkMax(2, MotorType.kBrushless), 130) //real: 355
 	};
 
 	private AHRS mNavX = new AHRS(SPI.Port.kMXP, (byte) 200);

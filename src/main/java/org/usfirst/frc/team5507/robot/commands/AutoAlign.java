@@ -29,7 +29,15 @@ public class AutoAlign extends Command {
   protected void execute() {
     drivetrain.setIsAuto(true);
     drivetrain.setFieldOriented(false);
-    Robot.m_Limelight.align(Robot.targetPos);
+    if(Robot.m_Limelight.getCameraMode() == 0) {
+      Robot.m_Limelight.align(Robot.targetPos, false);
+      System.out.println("hatch: " + Robot.targetPos);
+    }
+    else {
+      Robot.m_Limelight.align(Robot.targetPos + 180, true);
+      double x = Robot.targetPos + 180;
+      System.out.println("cargo: " + x);
+    }
   }
 
   @Override

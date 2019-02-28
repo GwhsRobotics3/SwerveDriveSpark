@@ -23,6 +23,7 @@ import org.usfirst.frc.team5507.robot.commands.ZeroNavX;
 import org.usfirst.frc.team5507.robot.input.DPadButton;
 import org.usfirst.frc.team5507.robot.input.IGamepad;
 import org.usfirst.frc.team5507.robot.input.XboxGamepad;
+import org.usfirst.frc.team5507.robot.input.DPadButton.Direction;
 import org.usfirst.frc.team5507.robot.subsystems.HolonomicDrivetrain;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -49,8 +50,8 @@ public class OI {
 
 		mController.getBButton().whileHeld(new HatchOut());
 		mController.getBButton().whenReleased(new HatchIn());
-		mController.getLeftBumperButton().whileHeld(new HatchPushBack());
-		mController.getLeftBumperButton().whenReleased(new SetFieldOriented(mRobot.getDrivetrain(), true));
+		//mController.getLeftBumperButton().whileHeld(new HatchPushBack());
+		//mController.getLeftBumperButton().whenReleased(new SetFieldOriented(mRobot.getDrivetrain(), true));
 
 		mController.getXButton().whileHeld(new AutoAlign(mRobot.getDrivetrain()));
 		mController.getXButton().whenReleased(new ResetHappy());
@@ -62,7 +63,8 @@ public class OI {
 		mController.getBackButton().whenPressed(new SetFieldOriented(mRobot.getDrivetrain(), false));
 
 		mController.getLeftBumperButton().whenPressed(new ToggleCamera());
-
+		mController.getDPadButton(Direction.RIGHT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), true));
+		mController.getDPadButton(Direction.LEFT).whenPressed(new AdjustFieldOrientedAngleCommand(mRobot.getDrivetrain(), false));
 
 		//climber controls
 	//	climbController.getLeftBumperButton().whenPressed(new StopArm1());
