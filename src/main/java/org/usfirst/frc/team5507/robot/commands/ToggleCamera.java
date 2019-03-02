@@ -26,8 +26,8 @@ public class ToggleCamera extends Command {
 
   @Override
   protected void execute() {
-    //Robot.m_Limelight.toggleCamera();
-   // toggled = true;
+    Robot.m_Limelight.toggleCamera();
+   toggled = true;
   }
 
   @Override
