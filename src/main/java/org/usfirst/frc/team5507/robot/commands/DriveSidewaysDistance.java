@@ -29,16 +29,14 @@ public class DriveSidewaysDistance extends Command {
 
   @Override
   protected boolean isFinished() {
-    if(Math.abs(Robot.swerveDriveSubsystem.calculateErrPos(d1)) < DISTANCE)
-      return true;
-      
-      return false;
+    return Math.abs(Robot.swerveDriveSubsystem.calculateErrPos(d1)) < DISTANCE;
+     
   }
 
   @Override
   protected void end() {
   }
-  
+
   @Override
   protected void interrupted() {
   }

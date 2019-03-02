@@ -8,6 +8,7 @@ import org.usfirst.frc.team5507.robot.commands.AutoLv1Team2RightHatch;
 import org.usfirst.frc.team5507.robot.subsystems.Cargo;
 import org.usfirst.frc.team5507.robot.subsystems.Climber;
 import org.usfirst.frc.team5507.robot.subsystems.HatchDelivery;
+import org.usfirst.frc.team5507.robot.subsystems.Hook;
 import org.usfirst.frc.team5507.robot.subsystems.Limelight;
 import org.usfirst.frc.team5507.robot.subsystems.SwerveDriveSubsystem;
 
@@ -37,6 +38,7 @@ public class Robot extends TimedRobot {
 	public static HatchDelivery m_HatchDelivery;
 	public static Limelight m_Limelight;
 	public static Cargo m_cargo;
+	public static Hook m_hook;
 	public Compressor compressor;
 	public static Command m_autoCommand;
 	SendableChooser<Integer> m_autoChooser = new SendableChooser<>();
@@ -76,6 +78,7 @@ public class Robot extends TimedRobot {
 		m_climber = new Climber();
 		m_HatchDelivery = new HatchDelivery();
 		m_cargo = new Cargo();
+		m_hook = new Hook();
 		timer = new Timer();	
 		mOI = new OI(this);
 		mOI.registerControls();
@@ -230,15 +233,13 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-		timer.reset();
-		timer.start();
 	}
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
 	public void testPeriodic() {
-		swerveDriveSubsystem.driveForwardDistance(6, swerveDriveSubsystem.getNavX().getYaw(), 0.5);
+		
 	}
 
 	public SwerveDriveSubsystem getDrivetrain() {

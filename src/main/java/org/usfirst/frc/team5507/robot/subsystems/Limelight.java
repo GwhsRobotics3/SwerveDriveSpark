@@ -28,7 +28,7 @@ public class Limelight extends Subsystem {
   public static final int HATCH_CAM = 0;
   public static final int CARGO_CAM = 1;
   private static int camMode = 0;
-  public static NetworkTable hatchTable = NetworkTableInstance.getDefault().getTable("limelight-hatch");
+  public static NetworkTable hatchTable = NetworkTableInstance.getDefault().getTable("limelight-hatch"); //11     
  // public static NetworkTable cargoTable = NetworkTableInstance.getDefault().getTable("limelight");
   public static NetworkTable curNetworkTable = hatchTable;
   private static int currCam = 0;
