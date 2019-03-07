@@ -22,7 +22,6 @@ public class Hook extends Subsystem {
   private static CANEncoder hookEncoder = new CANEncoder(hook);
   private static CANPIDController hookPID = new CANPIDController(hook);
 
-
   @Override
   public void initDefaultCommand() {
     Robot.m_hook.setPid();

@@ -45,17 +45,17 @@ public class Limelight extends Subsystem {
   public static double limelightarea;
   public static double angleErr;
   public static boolean isView;
-  private double kP = .055; // .06
+  private double kP = .05; // .06
    private double kI = .00138; 
   private double kD = 0.001;
-  private double rkP = 0.0035;
+  private double rkP = 0.0038;
   private double rkI = 0.005;
   private double xErr = 0;
   private double xIErr = 0;
   private double dRotation = 0;
   private double rIErr = 0;
   private boolean happy = false; // stop aligning x once happy is true
-  private double xOffset = -.5;
+  private double xOffset = -.7;
   private double rotation = 0.0;
   private double strafe = 0;
   private double forward = 0.35;

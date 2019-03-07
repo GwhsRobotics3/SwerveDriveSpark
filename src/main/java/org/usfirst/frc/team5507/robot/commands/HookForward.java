@@ -26,7 +26,7 @@ public class HookForward extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_hook.setPosition(8.9);
+    Robot.m_hook.setPosition(10.8);
   }
 
   // Make this return true when this Command no longer needs to run execute()

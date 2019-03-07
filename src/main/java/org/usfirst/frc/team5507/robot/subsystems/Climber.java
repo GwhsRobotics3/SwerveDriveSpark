@@ -9,11 +9,12 @@ package org.usfirst.frc.team5507.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
+import com.revrobotics.CANDigitalInput;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
+import com.revrobotics.CANDigitalInput.LimitSwitch;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import org.usfirst.frc.team5507.robot.Robot;
@@ -30,11 +31,16 @@ public class Climber extends Subsystem {
   private static CANEncoder NEncoder2 = new CANEncoder(arm2);
   private static CANPIDController NPidController1 = new CANPIDController(arm1);
   private static CANPIDController NPidController2 = new CANPIDController(arm2);
+  private static CANDigitalInput arm2TopSwitch = arm2.getForwardLimitSwitch(CANDigitalInput.LimitSwitchPolarity.kNormallyOpen);
 
   private final double GEARBOX_RATIO = 400; 
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new ClimberMoveArms());
+  }
+
+  public CANSparkMax getHand() {
+    return hand;
   }
   
   public CANPIDController getPIDControllerArm1()

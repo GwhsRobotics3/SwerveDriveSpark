@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team5507.robot.commands;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import org.usfirst.frc.team5507.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,6 +21,7 @@ public class ClimberMoveArms extends Command {
 
   @Override
   protected void initialize() {
+    Robot.m_climber.getHand().setIdleMode(IdleMode.kBrake);
   }
 
   private double deadband(double input) {
