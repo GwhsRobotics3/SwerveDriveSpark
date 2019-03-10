@@ -45,12 +45,14 @@ public class Limelight extends Subsystem {
   public static double limelightarea;
   public static double angleErr;
   public static boolean isView;
-  private double kP = .05; // .06
-   private double kI = .00138; 
+  private double kP = 0.05; // .06
+  private double kI = 0.00138; 
   private double kD = 0.001;
   private double rkP = 0.0038;
-  private double rkI = 0.005;
+  private double rkI = 0.006;
+  private double rkD = 0.001;
   private double xErr = 0;
+  private Double prevXErr;
   private double xIErr = 0;
   private double dRotation = 0;
   private double rIErr = 0;
@@ -74,6 +76,7 @@ public class Limelight extends Subsystem {
     happy = false;
     xIErr = 0;
     rIErr = 0;
+    
   }
 
   public static void setCamera(int camera) {
@@ -151,13 +154,18 @@ public class Limelight extends Subsystem {
   public double getStrafe() {
     xErr = 0 - limelightx;
     xIErr += (xErr)*REFRESH_RATE;
-    
+    double dXerr = 0;
+    if(prevXErr != null)
+    {
+     dXerr = (xErr - prevXErr)/REFRESH_RATE;    
+    }
+
     if (Math.abs(limelightx) > .5) {
-      strafe = kP*xErr + kI*xIErr;
+      strafe = (kP*xErr) + (kI*xIErr) + (kD*dXerr);
     } else {
       strafe = 0;
     }
-
+    prevXErr = xErr;
     if(isHappy()) {
       strafe = 0;
     }
@@ -177,7 +185,7 @@ public class Limelight extends Subsystem {
       }
     }
     if(Math.abs(angleErr) > 1.5 && Math.abs(limelightx) < 15) {
-      rotation = (rkP * angleErr) + (dRotation * kD) + rIErr*rkI;
+      rotation = (rkP * angleErr) + (dRotation * rkD) + rIErr*rkI;
     }
     
     return rotation;
@@ -186,8 +194,8 @@ public class Limelight extends Subsystem {
   public boolean isHappy() {
     // check if we are close enough and aligned to the target
     if(limelightarea > 20) {
-      forward = 0;  
-      if(Math.abs(angleErr) < 2.5 && Math.abs(limelightx) < 2) {
+      forward = 0;
+      if(Math.abs(angleErr) < 2.5 && Math.abs(limelightx) < 1.5) {
         happy = true;
       }
     }
@@ -228,6 +236,7 @@ public class Limelight extends Subsystem {
     return 0;
   }
 
+
   public void align(double targetAngle, boolean cargo) //check the values on limelight
   {
     
@@ -242,7 +251,6 @@ public class Limelight extends Subsystem {
     isView = tv.getBoolean(true);
 
     dRotation = Robot.m_Limelight.setdRotation(targetAngle);
-
     forward = 0.35;
     strafe = -getStrafe();
     rotation = getRotation();

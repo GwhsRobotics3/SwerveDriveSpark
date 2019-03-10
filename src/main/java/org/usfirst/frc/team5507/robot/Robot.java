@@ -61,11 +61,13 @@ public class Robot extends TimedRobot {
 	//Angle Chooser System
 	private static final int FRONT_CARGO = 0;
 	private static final int LEFT_CARGO = 90;
-	private static final int LEFT_FRONT_ROCKET = -61; 
-	private static final int LEFT_BACK_ROCKET = -299;
+	private static final int LEFT_FRONT_ROCKET = -29; 
+	private static final int LEFT_CENTER_ROCKET = -91; //Maybe
+	private static final int LEFT_BACK_ROCKET = -151;
 	private static final int RIGHT_CARGO = -90;
-	private static final int RIGHT_FRONT_ROCKET = 30;
-	private static final int RIGHT_BACK_ROCKET = 299;
+	private static final int RIGHT_FRONT_ROCKET = 29;
+	private static final int RIGHT_CENTER_ROCKET = 91; // Maybe
+	private static final int RIGHT_BACK_ROCKET = 151;
 	private static final int LOADING_STATION = 180;
 
 	/**
@@ -90,14 +92,17 @@ public class Robot extends TimedRobot {
 
 		compressor.setClosedLoopControl(true);
 
-		m_alignChooser.setDefaultOption("Front Cargo Bay (Zero) ", FRONT_CARGO);
-		m_alignChooser.addOption("Left Cargo Bay ", LEFT_CARGO );
-		m_alignChooser.addOption("Left Front Rocket ", LEFT_FRONT_ROCKET);
+		m_alignChooser.setDefaultOption("Front Cargo Bay", FRONT_CARGO);
+		m_alignChooser.addOption("Loading Station", LOADING_STATION);
+		m_alignChooser.addOption("Left Cargo Bay", LEFT_CARGO );
+		m_alignChooser.addOption("Right Cargo Bay", RIGHT_CARGO);
+		m_alignChooser.addOption("Left Front Rocket", LEFT_FRONT_ROCKET);
+		m_alignChooser.addOption("Left Center Rocket", LEFT_CENTER_ROCKET);
 		m_alignChooser.addOption("Left Back Rocket", LEFT_BACK_ROCKET);
-		m_alignChooser.addOption("Right Cargo Bay ", RIGHT_CARGO);
-		m_alignChooser.addOption("Right Front Rocket ", RIGHT_FRONT_ROCKET);
+		m_alignChooser.addOption("Right Front Rocket", RIGHT_FRONT_ROCKET);
+		m_alignChooser.addOption("Right Center Rocket", RIGHT_CENTER_ROCKET);
 		m_alignChooser.addOption("Right Back Rocket", RIGHT_BACK_ROCKET);
-		m_alignChooser.addOption("Loading Station ", LOADING_STATION);
+		
 
 
 		m_autoChooser.setDefaultOption("Get off hab zone", AUTO_OFF_1);
@@ -108,37 +113,13 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Auto Chooser", m_autoChooser);
 
 		targetPos = FRONT_CARGO;
-		switch(m_alignChooser.getSelected())
-		{
-			case FRONT_CARGO:
-				targetPos =  FRONT_CARGO;
-				break;
-			case LEFT_CARGO: 
-				targetPos = LEFT_CARGO;
-				break;
-			case LEFT_FRONT_ROCKET: 
-				targetPos = LEFT_FRONT_ROCKET;
-				break;	
-			case LEFT_BACK_ROCKET: 
-				targetPos = LEFT_BACK_ROCKET;
-				break;	
-			case RIGHT_CARGO: 
-				targetPos = RIGHT_CARGO;
-				break;	
-			case RIGHT_FRONT_ROCKET: 
-				targetPos = RIGHT_FRONT_ROCKET;
-				break;	
-			case RIGHT_BACK_ROCKET:
-				targetPos = RIGHT_BACK_ROCKET;
-				break;
-			case LOADING_STATION: 
-				targetPos = LOADING_STATION;
-				break;				
-		}
+							
+		
 	}
 
 	@Override
 	public void robotPeriodic() {
+		m_climber.printLimit(); // prints limit switch values to SmartDashboard.
 		SmartDashboard.putNumber("Adjusted Drivetrain Angle", swerveDriveSubsystem.getGyroAngle());
 		SmartDashboard.putNumber("Raw Drivetrain Angle", swerveDriveSubsystem.getRawGyroAngle());
 		SmartDashboard.putNumber("Drivetrain Rate", swerveDriveSubsystem.getGyroRate());
@@ -158,7 +139,10 @@ public class Robot extends TimedRobot {
 				break;
 			case LEFT_FRONT_ROCKET: 
 				targetPos = LEFT_FRONT_ROCKET;
-				break;	
+				break;
+			case LEFT_CENTER_ROCKET: 
+				targetPos = LEFT_CENTER_ROCKET+1;
+				break;		
 			case LEFT_BACK_ROCKET: 
 				targetPos = LEFT_BACK_ROCKET;
 				break;	
@@ -167,15 +151,18 @@ public class Robot extends TimedRobot {
 				break;	
 			case RIGHT_FRONT_ROCKET: 
 				targetPos = RIGHT_FRONT_ROCKET;
+				break;
+			case RIGHT_CENTER_ROCKET:
+				targetPos = RIGHT_CENTER_ROCKET-1;
 				break;	
 			case RIGHT_BACK_ROCKET:
 				targetPos = RIGHT_BACK_ROCKET;
 				break;
 			case LOADING_STATION: 
 				targetPos = LOADING_STATION;
-				break;				
+				break;
+
 		}
-		
 	}
 
 	/**
@@ -210,8 +197,6 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 
 		swerveDriveSubsystem.zeroGyro();
-		swerveDriveSubsystem.setFieldOriented(false);
-		autoMode = true;
 
 		switch(m_autoChooser.getSelected())
 		{
@@ -242,7 +227,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		swerveDriveSubsystem.setFieldOriented(true);
-		autoMode = false;
 		
 
 	}

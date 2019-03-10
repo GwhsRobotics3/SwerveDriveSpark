@@ -34,9 +34,15 @@ public class AutoAlign extends Command {
       System.out.println("hatch: " + Robot.targetPos);
     }
     else {
-      Robot.m_Limelight.align(Robot.targetPos + 180, true);
-      double x = Robot.targetPos + 180;
-      System.out.println("cargo: " + x);
+      if(Robot.targetPos + 180 >= 360)
+      {
+        Robot.m_Limelight.align(Robot.targetPos - 180, true);  
+      }
+      else {
+        Robot.m_Limelight.align(Robot.targetPos + 180, true);
+        double x = Robot.targetPos + 180;
+        System.out.println("cargo: " + x);
+      }
     }
   }
 

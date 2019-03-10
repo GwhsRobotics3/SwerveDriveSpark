@@ -15,6 +15,7 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANDigitalInput.LimitSwitch;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import org.usfirst.frc.team5507.robot.Robot;
@@ -22,6 +23,7 @@ import org.usfirst.frc.team5507.robot.commands.ClimberMoveArms;
 import org.usfirst.frc.team5507.robot.commands.ClimberStop;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Climber extends Subsystem {
   private static CANSparkMax arm1 = new CANSparkMax(17, MotorType.kBrushless);
@@ -31,8 +33,10 @@ public class Climber extends Subsystem {
   private static CANEncoder NEncoder2 = new CANEncoder(arm2);
   private static CANPIDController NPidController1 = new CANPIDController(arm1);
   private static CANPIDController NPidController2 = new CANPIDController(arm2);
-  private static CANDigitalInput arm2TopSwitch = arm2.getForwardLimitSwitch(CANDigitalInput.LimitSwitchPolarity.kNormallyOpen);
-
+  private static CANDigitalInput arm2F = new CANDigitalInput(arm2, CANDigitalInput.LimitSwitch.kForward, LimitSwitchPolarity.kNormallyOpen);
+  private static CANDigitalInput arm2R = new CANDigitalInput(arm2, CANDigitalInput.LimitSwitch.kReverse, LimitSwitchPolarity.kNormallyOpen);
+  private static CANDigitalInput arm1R = new CANDigitalInput(arm1, CANDigitalInput.LimitSwitch.kReverse, LimitSwitchPolarity.kNormallyOpen);
+  private static CANDigitalInput arm1F = new CANDigitalInput(arm1, CANDigitalInput.LimitSwitch.kForward, LimitSwitchPolarity.kNormallyOpen);
   private final double GEARBOX_RATIO = 400; 
   @Override
   public void initDefaultCommand() {
@@ -51,6 +55,27 @@ public class Climber extends Subsystem {
   public CANPIDController getPIDControllerArm2()
   {
     return NPidController2;
+  }
+
+  public boolean getForwardLimit() // bottom
+  {
+    return arm2F.get();
+  }
+
+  public boolean getReverseLimit() // top
+  {
+    return arm2R.get();
+  }
+  public boolean getArm1ForwardLimit() // testing
+  {
+    return arm1F.get();
+  }
+
+  public void printLimit()
+  {
+    SmartDashboard.putBoolean("Bottom Limit", getForwardLimit());
+    SmartDashboard.putBoolean("Top Limit", getReverseLimit());
+    SmartDashboard.putBoolean("Front Arm ", getArm1ForwardLimit());
   }
 
   public void stop() { //when pressed
