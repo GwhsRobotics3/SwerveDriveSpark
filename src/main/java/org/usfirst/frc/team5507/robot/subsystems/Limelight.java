@@ -193,7 +193,7 @@ public class Limelight extends Subsystem {
 
   public boolean isHappy() {
     // check if we are close enough and aligned to the target
-    if(limelightarea > 20) {
+    if(limelightarea > 18) {
       forward = 0;
       if(Math.abs(angleErr) < 2.5 && Math.abs(limelightx) < 1.5) {
         happy = true;

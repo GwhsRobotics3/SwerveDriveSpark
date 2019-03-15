@@ -18,7 +18,7 @@ import org.usfirst.frc.team5507.robot.Robot;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Hook extends Subsystem {
-  private static CANSparkMax hook = new CANSparkMax(25, MotorType.kBrushless);
+  private static CANSparkMax hook = new CANSparkMax(18, MotorType.kBrushless);
   private static CANEncoder hookEncoder = new CANEncoder(hook);
   private static CANPIDController hookPID = new CANPIDController(hook);
 
