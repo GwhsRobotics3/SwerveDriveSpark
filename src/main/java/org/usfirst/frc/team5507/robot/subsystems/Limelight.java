@@ -144,6 +144,7 @@ public class Limelight extends Subsystem {
     SmartDashboard.putBoolean("Is in view", isView);
     SmartDashboard.putNumber("Gyro Angle", (Robot.swerveDriveSubsystem.getGyroAngle()));
     SmartDashboard.putString("Camera Mode", cameraMode);
+    SmartDashboard.putBoolean("Happy", happy);
   }
 
   public boolean getHappy()
@@ -166,7 +167,7 @@ public class Limelight extends Subsystem {
       strafe = 0;
     }
     prevXErr = xErr;
-    if(isHappy()) {
+    if(getHappy()) {
       strafe = 0;
     }
     return strafe;
@@ -191,15 +192,14 @@ public class Limelight extends Subsystem {
     return rotation;
   }
 
-  public boolean isHappy() {
+  public void setHappy() {
     // check if we are close enough and aligned to the target
-    if(limelightarea > 18) {
+    if(limelightarea > 15) {
       forward = 0;
-      if(Math.abs(angleErr) < 2.5 && Math.abs(limelightx) < 1.5) {
+      if(Math.abs(angleErr) < 5 && Math.abs(limelightx) < 2.0) {
         happy = true;
       }
     }
-    return happy;
   }
 
   public double getAngleErr(double targetAngle) {
@@ -252,9 +252,11 @@ public class Limelight extends Subsystem {
 
     dRotation = Robot.m_Limelight.setdRotation(targetAngle);
     forward = 0.35;
+
+    setHappy();
     strafe = -getStrafe();
     rotation = getRotation();
-    if(happy)
+    if(getHappy())
     {
       forward = 0.35;
     }
