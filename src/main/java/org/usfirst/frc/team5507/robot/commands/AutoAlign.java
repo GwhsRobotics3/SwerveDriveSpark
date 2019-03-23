@@ -16,7 +16,7 @@ public class AutoAlign extends Command {
   private final HolonomicDrivetrain drivetrain;
   
   public AutoAlign(HolonomicDrivetrain drivetrain) {
-    requires(Robot.swerveDriveSubsystem);  
+    requires(Robot.swerveDriveSubsystem);  '.'
     requires(Robot.m_Limelight);
     this.drivetrain = drivetrain;
   }

@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public abstract class Drivetrain extends Subsystem {
 	private double speedMultiplier = .7;
-
+	
 	protected abstract void initDefaultCommand();
 
 	public double getSpeedMultiplier() {
