@@ -22,10 +22,10 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 	 * 3 is Back Right
 	 */
 	private SwerveDriveModule[] mSwerveModules = new SwerveDriveModule[] {                            
-		new SwerveDriveModule(0, new TalonSRX(12), new CANSparkMax(4, MotorType.kBrushless), 390), //real:390
-		new SwerveDriveModule(1, new TalonSRX(13), new CANSparkMax(5, MotorType.kBrushless), 293), //real:293
-		new SwerveDriveModule(2, new TalonSRX(10), new CANSparkMax(3, MotorType.kBrushless), 298), //real:298
-		new SwerveDriveModule(3, new TalonSRX(11), new CANSparkMax(2, MotorType.kBrushless), 355) //real: 355
+		new SwerveDriveModule(0, new TalonSRX(12), new CANSparkMax(4, MotorType.kBrushless), 390), //real:390 practice: 212
+		new SwerveDriveModule(1, new TalonSRX(13), new CANSparkMax(5, MotorType.kBrushless), 293), //real:293 practice: 59
+		new SwerveDriveModule(2, new TalonSRX(10), new CANSparkMax(3, MotorType.kBrushless), 298), //real:298 practice: 56
+		new SwerveDriveModule(3, new TalonSRX(11), new CANSparkMax(2, MotorType.kBrushless), 355) //real: 355 practice: 190
 	};
 
 	private AHRS mNavX = new AHRS(SPI.Port.kMXP, (byte) 200);
@@ -33,7 +33,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 	public SwerveDriveSubsystem() {
 		zeroGyro(); 
 
-		mSwerveModules[0].getDriveMotor().setInverted(false); //real: false
+		mSwerveModules[0].getDriveMotor().setInverted(true); //real: false
 		mSwerveModules[1].getDriveMotor().setInverted(true); //real: true
 		mSwerveModules[2].getDriveMotor().setInverted(false); //real: false
 		mSwerveModules[3].getDriveMotor().setInverted(false); //real: false
