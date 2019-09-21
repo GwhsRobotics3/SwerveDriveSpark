@@ -26,7 +26,7 @@ public class ClimberArm1 extends Command {
    
     if(Math.abs(Robot.getOI().getClimberController().getLeftYValue()) > .15)
     {
-     Robot.m_climber.moveArm1(Robot.getOI().getClimberController().getLeftYValue());
+     Robot.m_climber.moveArm1(-Robot.getOI().getClimberController().getLeftYValue());
     }
     else 
     {

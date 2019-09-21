@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Pivot extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  DoubleSolenoid pivotArm = new DoubleSolenoid(15, 16); //wrong ports
+  DoubleSolenoid pivotArm = new DoubleSolenoid(6, 7); 
 
   @Override
   public void initDefaultCommand() {
