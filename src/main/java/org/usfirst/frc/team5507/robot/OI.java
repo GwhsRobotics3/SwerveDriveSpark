@@ -14,6 +14,8 @@ import org.usfirst.frc.team5507.robot.commands.HatchOut;
 import org.usfirst.frc.team5507.robot.commands.HatchPushBack;
 import org.usfirst.frc.team5507.robot.commands.HookBack;
 import org.usfirst.frc.team5507.robot.commands.HookForward;
+import org.usfirst.frc.team5507.robot.commands.PivotHigh;
+import org.usfirst.frc.team5507.robot.commands.PivotLow;
 import org.usfirst.frc.team5507.robot.commands.ResetDrivetrainEncoderCommand;
 import org.usfirst.frc.team5507.robot.commands.ResetHappy;
 import org.usfirst.frc.team5507.robot.commands.SetFieldOriented;
@@ -79,8 +81,10 @@ public class OI {
 
 		climbController.getYButton().whenPressed(new HookForward());
 		climbController.getBButton().whenPressed(new HookBack());
-		
-	}
+
+		climbController.getAButton().whileHeld(new PivotLow());
+		climbController.getAButton().whenReleased(new PivotHigh());
+	}	
 
 	public IGamepad getController() {
 		return mController;
