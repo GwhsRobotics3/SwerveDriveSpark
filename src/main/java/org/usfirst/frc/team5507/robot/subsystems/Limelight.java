@@ -76,7 +76,7 @@ public class Limelight extends Subsystem {
     happy = false;
     xIErr = 0;
     rIErr = 0;
-    
+    Robot.swerveDriveSubsystem.setSpeedMultiplier(1);
   }
 
   public static void setCamera(int camera) {
@@ -242,6 +242,7 @@ public class Limelight extends Subsystem {
     
     angleErr = this.getAngleErr(targetAngle);
     Robot.swerveDriveSubsystem.setIsAuto(true); 
+    Robot.swerveDriveSubsystem.setSpeedMultiplier(.5);
 
     limelightx = tx.getDouble(0.3);
     limelightx += xOffset; // add target x offset for alignment errors
