@@ -132,6 +132,22 @@ public class Climber extends Subsystem {
   public void stopHand() {
     hand.set(0);
   }
+  
+  // getRawGyroAngle()
+
+  public void frontArmForward()
+  {
+    double angle1 = navx.getRawGyroAngle();
+    if (angle1 > 10)
+    {
+      end();
+    } 
+    else 
+    {
+      motor.set();
+    }
+  }
+  
 }
 
 

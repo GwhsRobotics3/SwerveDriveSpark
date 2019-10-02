@@ -28,7 +28,7 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 		new SwerveDriveModule(3, new TalonSRX(11), new CANSparkMax(2, MotorType.kBrushless), 355) //real: 355 practice: 190
 	};
 
-	private AHRS mNavX = new AHRS(SPI.Port.kMXP, (byte) 200);
+	public AHRS mNavX = new AHRS(SPI.Port.kMXP, (byte) 200);
 
 	public SwerveDriveSubsystem() {
 		zeroGyro(); 
