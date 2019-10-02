@@ -66,6 +66,11 @@ public class SwerveDriveSubsystem extends HolonomicDrivetrain {
 		return mNavX.getAngle();
 	}
 
+	public double getYaw()
+	{
+		return mNavX.getAngle();
+	}
+
 	public SwerveDriveModule getSwerveModule(int i) {
 		return mSwerveModules[i];
 	}
