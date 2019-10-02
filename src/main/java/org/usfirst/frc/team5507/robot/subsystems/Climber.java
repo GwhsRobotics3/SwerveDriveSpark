@@ -66,9 +66,21 @@ public class Climber extends Subsystem {
   {
     return arm2R.get();
   }
-  public boolean getArm1ForwardLimit() // testing
+  public boolean getArm1ForwardLimit() //bottom
   {
     return arm1F.get();
+  }
+
+  public void driveBackArmDown() // Need To Test
+  {
+    if(getForwardLimit() == false)
+    {
+      arm2.set(0.2);
+    }
+    else
+    {
+      arm2.set(0);
+    } 
   }
 
   public void printLimit()
