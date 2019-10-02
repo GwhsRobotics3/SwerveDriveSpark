@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team5507.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANDigitalInput;
@@ -131,4 +133,5 @@ public class Climber extends Subsystem {
     hand.set(0);
   }
 }
+
 

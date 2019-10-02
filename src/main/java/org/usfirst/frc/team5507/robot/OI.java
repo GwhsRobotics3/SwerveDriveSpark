@@ -79,8 +79,8 @@ public class OI {
 		climbController.getRightBumperButton().whileHeld(new ClimberMoveHand(.7));
 		climbController.getRightBumperButton().whenReleased(new ClimberMoveHand(0));
 
-		climbController.getYButton().whenPressed(new HookForward());
-		climbController.getBButton().whenPressed(new HookBack());
+		climbController.getYButton().whileHeld(new HookForward());
+		climbController.getYButton().whenReleased(new HookBack());
 
 		climbController.getAButton().whileHeld(new PivotLow());
 		climbController.getAButton().whenReleased(new PivotHigh());
