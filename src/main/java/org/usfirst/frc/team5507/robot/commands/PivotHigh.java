@@ -25,7 +25,7 @@ public class PivotHigh extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
+  protected void execute() { //yay
     Robot.m_pivot.PivotUp();
   }
 
