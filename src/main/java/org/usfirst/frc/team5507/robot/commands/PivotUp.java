@@ -7,49 +7,41 @@
 
 package org.usfirst.frc.team5507.robot.commands;
 
-import com.revrobotics.CANSparkMax.IdleMode;
-
 import org.usfirst.frc.team5507.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ClimberMoveArms extends Command {
-
-  public ClimberMoveArms() {
-    requires(Robot.m_climber);
+public class PivotUp extends Command {
+  public PivotUp() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Robot.m_pivot);
   }
 
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_climber.getHand().setIdleMode(IdleMode.kBrake);
   }
 
-  private double deadband(double input) {
-		if (Math.abs(input) < 0.15) return 0;
-		return input;
-  }
-  
+  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double speed1 = deadband(-Robot.getOI().getClimberController().getLeftYValue());
-    double speed2 = deadband(Robot.getOI().getClimberController().getRightYValue());
-    Robot.m_climber.moveArms(speed1, speed2);
-    if(speed1 < 0) Robot.m_climber.moveHand1(0.1);
-    else {
-      Robot.m_climber.moveHand1(0);
-    }
-
+    Robot.m_pivot.PivotUp();
   }
 
+  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
   }
 
+  // Called once after isFinished returns true
   @Override
   protected void end() {
   }
 
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
   }

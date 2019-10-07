@@ -3,7 +3,7 @@ package org.usfirst.frc.team5507.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public abstract class Drivetrain extends Subsystem {
-	private double speedMultiplier = .825;
+	private double speedMultiplier = 1;
 
 	protected abstract void initDefaultCommand();
 
