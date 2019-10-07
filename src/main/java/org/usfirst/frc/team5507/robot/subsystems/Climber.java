@@ -40,6 +40,7 @@ public class Climber extends Subsystem {
   private static CANDigitalInput arm1R = new CANDigitalInput(arm1, CANDigitalInput.LimitSwitch.kReverse, LimitSwitchPolarity.kNormallyOpen);
   private static CANDigitalInput arm1F = new CANDigitalInput(arm1, CANDigitalInput.LimitSwitch.kForward, LimitSwitchPolarity.kNormallyOpen);
   private final double GEARBOX_RATIO = 400; 
+  public static double robotAngle = navx.getRawGyroAngle();
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new ClimberMoveArms());
@@ -68,7 +69,7 @@ public class Climber extends Subsystem {
   {
     return arm2R.get();
   }
-  public boolean getArm1ForwardLimit() // testing
+  public boolean getArm1ForwardLimit() 
   {
     return arm1F.get();
   }
@@ -78,6 +79,11 @@ public class Climber extends Subsystem {
     SmartDashboard.putBoolean("Bottom Limit", getForwardLimit());
     SmartDashboard.putBoolean("Top Limit", getReverseLimit());
     SmartDashboard.putBoolean("Front Arm ", getArm1ForwardLimit());
+  }
+  
+  public void printGyroAngle()
+  {
+    SmartDashboard.putBoolean("Gyro Angle", robotAngle);
   }
 
   public void stop() { //when pressed
@@ -132,22 +138,6 @@ public class Climber extends Subsystem {
   public void stopHand() {
     hand.set(0);
   }
-  
-  // getRawGyroAngle()
-
-  public void frontArmForward()
-  {
-    double angle1 = navx.getRawGyroAngle();
-    if (angle1 > 10)
-    {
-      end();
-    } 
-    else 
-    {
-      motor.set();
-    }
-  }
-  
 }
 
 
